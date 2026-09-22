@@ -12,6 +12,10 @@
     <!-- Firebase SDK (v9/v10 Compat) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen pb-12">
 
@@ -29,100 +33,146 @@
                 <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Firebase Connected
             </span>
         </div>
+
+        <!-- Tombol Menu Navigasi (Tab) -->
+        <div class="bg-emerald-800 border-t border-emerald-600">
+            <div class="max-w-4xl mx-auto flex justify-around text-sm font-semibold">
+                <button id="btn-beranda" onclick="openTab('tab-beranda', 'btn-beranda')" class="tab-btn w-full py-2.5 text-center border-b-2 border-yellow-300 text-yellow-300 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-house"></i> Beranda
+                </button>
+                <button id="btn-kas" onclick="openTab('tab-kas', 'btn-kas')" class="tab-btn w-full py-2.5 text-center border-b-2 border-transparent text-emerald-100 hover:text-white flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wallet"></i> Input Kas
+                </button>
+                <button id="btn-kajian" onclick="openTab('tab-kajian', 'btn-kajian')" class="tab-btn w-full py-2.5 text-center border-b-2 border-transparent text-emerald-100 hover:text-white flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-calendar-plus"></i> Tambah Kajian
+                </button>
+            </div>
+        </div>
     </nav>
 
     <div class="max-w-4xl mx-auto px-4 mt-6 space-y-6">
 
-        <!-- Form Input Kas Masjid -->
-        <section class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
-            <h2 class="text-lg font-bold text-emerald-800 border-b pb-2 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-wallet text-emerald-600"></i> Input Transaksi Kas
-            </h2>
-            <form id="form-kas" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Jenis Transaksi</label>
-                        <select id="kas-jenis" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50">
-                            <option value="pemasukan">Pemasukan (Infaq/Sedekah)</option>
-                            <option value="pengeluaran">Pengeluaran (Operasional)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Nominal (Rp)</label>
-                        <input type="number" id="kas-nominal" placeholder="Contoh: 500000" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Keterangan Transaksi</label>
-                    <input type="text" id="kas-keterangan" placeholder="Contoh: Infaq Kotak Jumat / Pembelian Karpet" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
-                </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg shadow transition flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-plus-circle"></i> Simpan Transaksi Kas
-                </button>
-            </form>
-        </section>
-
-        <!-- Form Input Agenda Kajian -->
-        <section class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
-            <h2 class="text-lg font-bold text-emerald-800 border-b pb-2 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-calendar-plus text-emerald-600"></i> Tambah Jadwal Kajian
-            </h2>
-            <form id="form-kajian" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Judul Kajian / Topik</label>
-                        <input type="text" id="kajian-judul" placeholder="Contoh: Kajian Fiqih Shalat" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Penceramah / Ustadz</label>
-                        <input type="text" id="kajian-ustadz" placeholder="Contoh: Ustadz Ahmad, Lc." class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal & Waktu</label>
-                        <input type="datetime-local" id="kajian-waktu" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Lokasi / Ruangan</label>
-                        <input type="text" id="kajian-lokasi" value="Ruang Utama Masjid Assyarikah" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50">
-                    </div>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg shadow transition flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-calendar-check"></i> Publikasikan Jadwal Kajian
-                </button>
-            </form>
-        </section>
-
-        <!-- Daftar Data Kas & Kajian -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Data Kas Terbaru -->
-            <section class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
-                <h3 class="font-bold text-gray-700 border-b pb-2 mb-3 flex items-center justify-between">
-                    <span>Catatan Kas Terbaru</span>
-                    <i class="fa-solid fa-receipt text-emerald-600"></i>
-                </h3>
-                <div id="daftar-kas" class="space-y-2 text-sm text-gray-600">
-                    <p class="text-gray-400 italic">Memuat data kas dari Firebase...</p>
-                </div>
+        <!-- TAB 1: BERANDA (HALAMAN UTAMA PERTAMA KALI) -->
+        <div id="tab-beranda" class="tab-content active space-y-6">
+            <!-- Banner Selamat Datang -->
+            <section class="bg-emerald-600 text-white rounded-xl shadow-md p-6 border border-emerald-500">
+                <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-mosque"></i> Selamat Datang di Web Admin DKM
+                </h2>
+                <p class="text-sm text-emerald-100 leading-relaxed">
+                    Portal resmi pengelolaan kas masjid dan jadwal agenda kajian DKM Masjid Assyarikah. Gunakan menu navigasi di atas untuk menginput transaksi baru atau melihat ringkasan di bawah ini.
+                </p>
             </section>
 
-            <!-- Data Kajian Terbaru -->
+            <!-- Ringkasan Ringkas -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Data Kas Terbaru -->
+                <section class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
+                    <h3 class="font-bold text-gray-700 border-b pb-2 mb-3 flex items-center justify-between">
+                        <span>Catatan Kas Terbaru</span>
+                        <i class="fa-solid fa-receipt text-emerald-600"></i>
+                    </h3>
+                    <div id="daftar-kas" class="space-y-2 text-sm text-gray-600">
+                        <p class="text-gray-400 italic">Memuat data kas dari Firebase...</p>
+                    </div>
+                </section>
+
+                <!-- Data Kajian Terbaru -->
+                <section class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
+                    <h3 class="font-bold text-gray-700 border-b pb-2 mb-3 flex items-center justify-between">
+                        <span>Agenda Kajian Mendatang</span>
+                        <i class="fa-solid fa-book-quran text-blue-600"></i>
+                    </h3>
+                    <div id="daftar-kajian" class="space-y-2 text-sm text-gray-600">
+                        <p class="text-gray-400 italic">Memuat data kajian dari Firebase...</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- TAB 2: INPUT KAS MASJID -->
+        <div id="tab-kas" class="tab-content">
             <section class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
-                <h3 class="font-bold text-gray-700 border-b pb-2 mb-3 flex items-center justify-between">
-                    <span>Agenda Kajian Mendatang</span>
-                    <i class="fa-solid fa-book-quran text-blue-600"></i>
-                </h3>
-                <div id="daftar-kajian" class="space-y-2 text-sm text-gray-600">
-                    <p class="text-gray-400 italic">Memuat data kajian dari Firebase...</p>
-                </div>
+                <h2 class="text-lg font-bold text-emerald-800 border-b pb-2 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-wallet text-emerald-600"></i> Input Transaksi Kas
+                </h2>
+                <form id="form-kas" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Jenis Transaksi</label>
+                            <select id="kas-jenis" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50">
+                                <option value="pemasukan">Pemasukan (Infaq/Sedekah)</option>
+                                <option value="pengeluaran">Pengeluaran (Operasional)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Nominal (Rp)</label>
+                            <input type="number" id="kas-nominal" placeholder="Contoh: 500000" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Keterangan Transaksi</label>
+                        <input type="text" id="kas-keterangan" placeholder="Contoh: Infaq Kotak Jumat / Pembelian Karpet" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg shadow transition flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-plus-circle"></i> Simpan Transaksi Kas
+                    </button>
+                </form>
+            </section>
+        </div>
+
+        <!-- TAB 3: INPUT AGENDA KAJIAN -->
+        <div id="tab-kajian" class="tab-content">
+            <section class="bg-white rounded-xl shadow-md p-5 border border-gray-200">
+                <h2 class="text-lg font-bold text-emerald-800 border-b pb-2 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-plus text-emerald-600"></i> Tambah Jadwal Kajian
+                </h2>
+                <form id="form-kajian" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Judul Kajian / Topik</label>
+                            <input type="text" id="kajian-judul" placeholder="Contoh: Kajian Fiqih Shalat" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Penceramah / Ustadz</label>
+                            <input type="text" id="kajian-ustadz" placeholder="Contoh: Ustadz Ahmad, Lc." class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal & Waktu</label>
+                            <input type="datetime-local" id="kajian-waktu" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Lokasi / Ruangan</label>
+                            <input type="text" id="kajian-lokasi" value="Ruang Utama Masjid Assyarikah" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none bg-gray-50">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg shadow transition flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-calendar-check"></i> Publikasikan Jadwal Kajian
+                    </button>
+                </form>
             </section>
         </div>
 
     </div>
 
-    <!-- Firebase Script Logika -->
+    <!-- Firebase Script Logika & Navigasi -->
     <script>
+        // Logika Navigasi Tab
+        function openTab(tabId, btnId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-yellow-300', 'text-yellow-300');
+                btn.classList.add('border-transparent', 'text-emerald-100');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            const activeBtn = document.getElementById(btnId);
+            activeBtn.classList.add('border-yellow-300', 'text-yellow-300');
+            activeBtn.classList.remove('border-transparent', 'text-emerald-100');
+        }
+
         // Konfigurasi Firebase dkm-assyarikah Anda
         const firebaseConfig = {
             apiKey: "AIzaSyATysy6FBpU4jhRCED-0FRObP2JEU13WEk",
@@ -154,6 +204,7 @@
                 });
                 alert('Berhasil menyimpan catatan kas!');
                 document.getElementById('form-kas').reset();
+                openTab('tab-beranda', 'btn-beranda');
             } catch (error) {
                 alert('Gagal menyimpan kas: ' + error.message);
             }
@@ -177,6 +228,7 @@
                 });
                 alert('Berhasil mempublikasikan jadwal kajian!');
                 document.getElementById('form-kajian').reset();
+                openTab('tab-beranda', 'btn-beranda');
             } catch (error) {
                 alert('Gagal menyimpan kajian: ' + error.message);
             }
@@ -226,4 +278,5 @@
         });
     </script>
 </body>
-</html>
+                </html>
+                
