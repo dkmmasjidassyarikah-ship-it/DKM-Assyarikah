@@ -277,7 +277,7 @@
     </div>
   </footer>
 
-  <!-- ==================== LOGIKA JAVASCRIPT & FIREBASE ==================== -->
+   <!-- ==================== LOGIKA JAVASCRIPT & FIREBASE ==================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
@@ -285,28 +285,8 @@
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     // 1. KUNCI KONFIGURASI FIREBASE PROYEK ANDA
-    // (Ganti nilai di bawah ini dengan milik Firebase Console Anda)
-    const firebaseConfig = { // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSy...", // Kunci asli dari Firebase Console Anda (dimulai dengan AIzaSy...)
-  authDomain: "dkm-assyarikah.firebaseapp.com",
-  projectId: "dkm-assyarikah",
-  storageBucket: "dkm-assyarikah.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdef..."
-};
-    
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-      apiKey: "AIzaSy_GANTI_DENGAN_API_KEY_ANDA",
+    const firebaseConfig = {
+      apiKey: "PASTE_KUNCI_API_KEY_ASLI_ANDA_DI_SINI",
       authDomain: "dkm-assyarikah.firebaseapp.com",
       projectId: "dkm-assyarikah",
       storageBucket: "dkm-assyarikah.appspot.com",
@@ -314,7 +294,7 @@ const analytics = getAnalytics(app);
       appId: "1:1234567890:web:abcdef123456"
     };
 
-    // Inisialisasi Firebase
+    // Inisialisasi Firebase & Firestore
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
@@ -353,4 +333,75 @@ const analytics = getAnalytics(app);
         const saldo = totalMasuk - totalKeluar;
         document.getElementById("stat-pemasukan").innerText = "Rp " + totalMasuk.toLocaleString('id-ID');
         document.getElementById("stat-pengeluaran").innerText = "Rp " + totalKeluar.toLocaleString('id-ID');
-        doc
+        document.getElementById("stat-saldo").innerText = "Rp " + saldo.toLocaleString('id-ID');
+      });
+    }
+
+    // --- B. BACA DATA AGENDA REALTIME ---
+    function initAgendaRealtime() {
+      const q = query(collection(db, "agenda_kegiatan"), orderBy("tanggal", "asc"));
+      onSnapshot(q, (snapshot) => {
+        let html = "";
+        if (snapshot.empty) {
+          html = `<p class="text-xs text-slate-400 italic col-span-2">Belum ada agenda kegiatan.</p>`;
+        } else {
+          snapshot.forEach((docSnap) => {
+            const d = docSnap.data();
+            const id = docSnap.id;
+            html += `
+              <div class="bg-emerald-50/60 border border-emerald-100 p-4 rounded-xl flex items-start justify-between">
+                <div>
+                  <span class="bg-emerald-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">${d.tanggal} | ${d.jam}</span>
+                  <h4 class="text-sm font-bold text-slate-800 mt-2">${d.judul}</h4>
+                  <p class="text-xs text-slate-600 mt-1"><i class="fa-solid fa-user-tie text-emerald-600"></i> Penceramah: ${d.penceramah || '-'}</p>
+                </div>
+                <button onclick="hapusDokumen('agenda_kegiatan', '${id}')" class="text-rose-400 hover:text-rose-600 text-xs"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            `;
+          });
+        }
+        document.getElementById("daftar-agenda-container").innerHTML = html;
+      });
+    }
+
+    // --- C. HANDLER SUBMIT FORM DARI PANEL ADMIN ---
+    document.getElementById("form-kas").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await addDoc(collection(db, "kas_masjid"), {
+          tanggal: document.getElementById("kas-tanggal").value,
+          jenis: document.getElementById("kas-jenis").value,
+          keterangan: document.getElementById("kas-keterangan").value,
+          nominal: Number(document.getElementById("kas-nominal").value)
+        });
+        alert("Transaksi Kas Berhasil Disimpan!");
+        document.getElementById("form-kas").reset();
+      } catch (err) { alert("Error: " + err.message); }
+    });
+
+    document.getElementById("form-agenda").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await addDoc(collection(db, "agenda_kegiatan"), {
+          judul: document.getElementById("agenda-judul").value,
+          tanggal: document.getElementById("agenda-tanggal").value,
+          jam: document.getElementById("agenda-jam").value,
+          penceramah: document.getElementById("agenda-penceramah").value
+        });
+        alert("Agenda Berhasil Disimpan!");
+        document.getElementById("form-agenda").reset();
+      } catch (err) { alert("Error: " + err.message); }
+    });
+
+    // --- D. FUNGSI HAPUS DATA GLOBAL ---
+    window.hapusDokumen = async function(koleksi, id) {
+      if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+        await deleteDoc(doc(db, koleksi, id));
+      }
+    };
+
+    // JALANKAN REALTIME
+    initKasRealtime();
+    initAgendaRealtime();
+  </script>
+  
