@@ -286,7 +286,28 @@
 
     // 1. KUNCI KONFIGURASI FIREBASE PROYEK ANDA
     // (Ganti nilai di bawah ini dengan milik Firebase Console Anda)
-    const firebaseConfig = {
+    const firebaseConfig = { // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyATysy6FBpU4jhRCED-0FRObP2JEU13WEk",
+  authDomain: "dkm-assyarikah.firebaseapp.com",
+  databaseURL: "https://dkm-assyarikah-default-rtdb.firebaseio.com",
+  projectId: "dkm-assyarikah",
+  storageBucket: "dkm-assyarikah.firebasestorage.app",
+  messagingSenderId: "578992922488",
+  appId: "1:578992922488:web:b7c65c6dda196c8710328d",
+  measurementId: "G-8TM0CVSS5F"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
       apiKey: "AIzaSy_GANTI_DENGAN_API_KEY_ANDA",
       authDomain: "dkm-assyarikah.firebaseapp.com",
       projectId: "dkm-assyarikah",
