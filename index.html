@@ -67,16 +67,25 @@
 
     <!-- 1. TAB BERANDA -->
     <section id="tab-beranda" class="tab-content active space-y-6">
-      <div class="bg-gradient-to-br from-emerald-800 to-emerald-950 text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden">
-        <div class="relative z-10 space-y-3 max-w-2xl">
-          <span class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+      
+      <!-- HERO BANNER TAMPILAN FOTO MASJID -->
+      <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[260px] md:min-h-[320px] flex items-end">
+        <!-- Foto Latar Belakang Masjid -->
+        <img src="masjid.jpg" alt="Foto Masjid Assyarikah" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200'">
+        
+        <!-- Lapisan Gelap Overlay Agar Teks Jelas -->
+        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/70 to-transparent"></div>
+
+        <!-- Konten Teks Banner -->
+        <div class="relative z-10 p-6 md:p-8 space-y-3 max-w-2xl text-white">
+          <span class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
             Pusat Informasi DKM
           </span>
-          <h2 class="text-2xl md:text-3xl font-extrabold leading-tight">
-            Selamat Datang di Portal Masjid Assyarikah Babakan Laban
+          <h2 class="text-2xl md:text-3xl font-extrabold leading-tight drop-shadow-md">
+            Selamat Datang di Portal Masjid Assyarikah
           </h2>
-          <p class="text-xs md:text-sm text-emerald-100 leading-relaxed">
-            Mewujudkan masjid yang makmur, transparan, dan ramah jamaah melalui pelayanan dakwah, sosial, serta laporan keuangan terbuka.
+          <p class="text-xs md:text-sm text-emerald-100 leading-relaxed drop-shadow">
+            Babakan Laban — Mewujudkan masjid yang makmur, transparan, dan ramah jamaah melalui pelayanan dakwah, sosial, serta laporan keuangan terbuka.
           </p>
         </div>
       </div>
@@ -322,7 +331,6 @@
       getFirestore, collection, addDoc, setDoc, deleteDoc, doc, onSnapshot, query 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // KUNCI FIREBASE RESMI PROYEK DKM ASSYARIKAH
     const firebaseConfig = {
       apiKey: "AIzaSyATysy6FBpU4jhRCED-0FRobP",
       authDomain: "dkm-assyarikah.firebaseapp.com",
@@ -337,9 +345,8 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    let nilaiKasAwal = 4587000; // Nilai bawaan
+    let nilaiKasAwal = 4587000;
 
-    // --- A. BACA KAS AWAL REALTIME ---
     function initKasAwalRealtime() {
       onSnapshot(doc(db, "pengaturan", "kas_awal"), (docSnap) => {
         if (docSnap.exists()) {
@@ -350,7 +357,6 @@
       });
     }
 
-    // --- B. BACA TRANSAKSI KAS REALTIME ---
     function initKasRealtime() {
       onSnapshot(collection(db, "kas_masjid"), (snapshot) => {
         let totalMasuk = 0, totalKeluar = 0, htmlTabel = "";
@@ -397,7 +403,6 @@
       document.getElementById("stat-kas-akhir").innerText = "Rp " + kasAkhir.toLocaleString('id-ID');
     }
 
-    // --- C. BACA REKAP SALDO PER JUM'AT REALTIME ---
     function initRekapJumatRealtime() {
       onSnapshot(collection(db, "rekap_jumat"), (snapshot) => {
         let html = "";
@@ -424,7 +429,6 @@
       });
     }
 
-    // --- D. BACA AGENDA REALTIME ---
     function initAgendaRealtime() {
       onSnapshot(collection(db, "agenda_kegiatan"), (snapshot) => {
         let html = "";
@@ -450,7 +454,6 @@
       });
     }
 
-    // --- E. BACA PENGURUS REALTIME ---
     function initPengurusRealtime() {
       onSnapshot(collection(db, "pengurus_dkm"), (snapshot) => {
         let html = "";
@@ -473,7 +476,6 @@
       });
     }
 
-    // --- F. BACA DOKUMEN REALTIME ---
     function initDokumenRealtime() {
       onSnapshot(collection(db, "dokumen_lpj"), (snapshot) => {
         let html = "";
@@ -501,7 +503,6 @@
       });
     }
 
-    // --- HANDLERS FORM SUBMIT ADMIN ---
     document.getElementById("form-kas-awal").addEventListener("submit", async (e) => {
       e.preventDefault();
       try {
@@ -577,14 +578,12 @@
       } catch (err) { alert("Error: " + err.message); }
     });
 
-    // FUNGSI HAPUS GLOBAL
     window.hapusDokumen = async function(koleksi, id) {
       if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
         await deleteDoc(doc(db, koleksi, id));
       }
     };
 
-    // JALANKAN REALTIME INITALIZATION
     initKasAwalRealtime();
     initKasRealtime();
     initRekapJumatRealtime();
