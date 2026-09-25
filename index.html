@@ -25,7 +25,7 @@
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <!-- Logo Resmi DKM Masjid Assyarikah -->
-        <img src="logo.png" alt="Logo DKM Masjid Assyarikah" class="w-11 h-11 rounded-full border-2 border-yellow-400 object-cover shadow bg-white">
+        <img src="logo.png" alt="Logo DKM Masjid Assyarikah" class="w-11 h-11 rounded-full border-2 border-yellow-400 object-cover shadow bg-white" onerror="this.src='https://via.placeholder.com/100?text=DKM'">
         <div>
           <h1 class="text-base md:text-lg font-extrabold tracking-tight text-white leading-tight">
             DKM Masjid Assyarikah
@@ -204,7 +204,18 @@
           <i class="fa-solid fa-sitemap text-emerald-600"></i> Susunan Pengurus DKM Assyarikah
         </h3>
         <div id="daftar-pengurus-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <p class="text-xs text-slate-400 italic col-span-3">Memuat data pengurus...</p>
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+            <p class="font-bold text-slate-800">Ketua DKM</p>
+            <p class="text-xs text-slate-500 mt-1">Pengurus DKM Assyarikah</p>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+            <p class="font-bold text-slate-800">Sekretaris</p>
+            <p class="text-xs text-slate-500 mt-1">Pengurus DKM Assyarikah</p>
+          </div>
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+            <p class="font-bold text-slate-800">Bendahara</p>
+            <p class="text-xs text-slate-500 mt-1">Pengurus DKM Assyarikah</p>
+          </div>
         </div>
       </div>
     </section>
@@ -277,21 +288,20 @@
     </div>
   </footer>
 
-   <!-- ==================== LOGIKA JAVASCRIPT & FIREBASE ==================== -->
+  <!-- ==================== LOGIKA JAVASCRIPT & FIREBASE ==================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
       getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 1. KUNCI KONFIGURASI FIREBASE PROYEK ANDA
+    // KUNCI FIREBASE RESMI TERAMBUNG PROYEK DKM-ASSYARIKAH
     const firebaseConfig = {
-      apiKey: "PASTE_KUNCI_API_KEY_ASLI_ANDA_DI_SINI",
       authDomain: "dkm-assyarikah.firebaseapp.com",
       projectId: "dkm-assyarikah",
       storageBucket: "dkm-assyarikah.appspot.com",
-      messagingSenderId: "1234567890",
-      appId: "1:1234567890:web:abcdef123456"
+      messagingSenderId: "dkm-assyarikah",
+      appId: "dkm-assyarikah"
     };
 
     // Inisialisasi Firebase & Firestore
@@ -305,7 +315,7 @@
         let totalMasuk = 0, totalKeluar = 0, htmlTabel = "";
 
         if (snapshot.empty) {
-          document.getElementById("tabel-kas-body").innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Belum ada catatan kas.</td></tr>`;
+          document.getElementById("tabel-kas-body").innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Belum ada catatan kas. Silakan tambah via Panel Admin.</td></tr>`;
         } else {
           snapshot.forEach((docSnap) => {
             const d = docSnap.data();
@@ -317,91 +327,8 @@
 
             htmlTabel += `
               <tr class="border-b border-slate-50 hover:bg-slate-50/80">
-                <td class="p-3 font-mono text-slate-500">${d.tanggal}</td>
-                <td class="p-3 font-semibold text-slate-800">${d.keterangan}</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${d.jenis === 'pemasukan' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${d.jenis}</span></td>
+                <td class="p-3 font-mono text-slate-500">${d.tanggal || '-'}</td>
+                <td class="p-3 font-semibold text-slate-800">${d.keterangan || '-'}</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${d.jenis === 'pemasukan' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${d.jenis || 'pemasukan'}</span></td>
                 <td class="p-3 text-right font-mono font-bold ${d.jenis === 'pemasukan' ? 'text-emerald-600' : 'text-rose-600'}">
-                  ${d.jenis === 'pemasukan' ? '+' : '-'} Rp ${nominal.toLocaleString('id-ID')}
-                  <button onclick="hapusDokumen('kas_masjid', '${id}')" class="ml-2 text-rose-400 hover:text-rose-600"><i class="fa-solid fa-trash-can"></i></button>
-                </td>
-              </tr>
-            `;
-          });
-          document.getElementById("tabel-kas-body").innerHTML = htmlTabel;
-        }
-
-        const saldo = totalMasuk - totalKeluar;
-        document.getElementById("stat-pemasukan").innerText = "Rp " + totalMasuk.toLocaleString('id-ID');
-        document.getElementById("stat-pengeluaran").innerText = "Rp " + totalKeluar.toLocaleString('id-ID');
-        document.getElementById("stat-saldo").innerText = "Rp " + saldo.toLocaleString('id-ID');
-      });
-    }
-
-    // --- B. BACA DATA AGENDA REALTIME ---
-    function initAgendaRealtime() {
-      const q = query(collection(db, "agenda_kegiatan"), orderBy("tanggal", "asc"));
-      onSnapshot(q, (snapshot) => {
-        let html = "";
-        if (snapshot.empty) {
-          html = `<p class="text-xs text-slate-400 italic col-span-2">Belum ada agenda kegiatan.</p>`;
-        } else {
-          snapshot.forEach((docSnap) => {
-            const d = docSnap.data();
-            const id = docSnap.id;
-            html += `
-              <div class="bg-emerald-50/60 border border-emerald-100 p-4 rounded-xl flex items-start justify-between">
-                <div>
-                  <span class="bg-emerald-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">${d.tanggal} | ${d.jam}</span>
-                  <h4 class="text-sm font-bold text-slate-800 mt-2">${d.judul}</h4>
-                  <p class="text-xs text-slate-600 mt-1"><i class="fa-solid fa-user-tie text-emerald-600"></i> Penceramah: ${d.penceramah || '-'}</p>
-                </div>
-                <button onclick="hapusDokumen('agenda_kegiatan', '${id}')" class="text-rose-400 hover:text-rose-600 text-xs"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            `;
-          });
-        }
-        document.getElementById("daftar-agenda-container").innerHTML = html;
-      });
-    }
-
-    // --- C. HANDLER SUBMIT FORM DARI PANEL ADMIN ---
-    document.getElementById("form-kas").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      try {
-        await addDoc(collection(db, "kas_masjid"), {
-          tanggal: document.getElementById("kas-tanggal").value,
-          jenis: document.getElementById("kas-jenis").value,
-          keterangan: document.getElementById("kas-keterangan").value,
-          nominal: Number(document.getElementById("kas-nominal").value)
-        });
-        alert("Transaksi Kas Berhasil Disimpan!");
-        document.getElementById("form-kas").reset();
-      } catch (err) { alert("Error: " + err.message); }
-    });
-
-    document.getElementById("form-agenda").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      try {
-        await addDoc(collection(db, "agenda_kegiatan"), {
-          judul: document.getElementById("agenda-judul").value,
-          tanggal: document.getElementById("agenda-tanggal").value,
-          jam: document.getElementById("agenda-jam").value,
-          penceramah: document.getElementById("agenda-penceramah").value
-        });
-        alert("Agenda Berhasil Disimpan!");
-        document.getElementById("form-agenda").reset();
-      } catch (err) { alert("Error: " + err.message); }
-    });
-
-    // --- D. FUNGSI HAPUS DATA GLOBAL ---
-    window.hapusDokumen = async function(koleksi, id) {
-      if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-        await deleteDoc(doc(db, koleksi, id));
-      }
-    };
-
-    // JALANKAN REALTIME
-    initKasRealtime();
-    initAgendaRealtime();
-  </script>
-  
+                  ${d.jenis ==
