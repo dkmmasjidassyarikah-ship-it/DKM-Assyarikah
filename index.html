@@ -18,311 +18,380 @@
     .tab-content.active { display: block; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-slate-900 text-slate-800 antialiased min-h-screen flex flex-col justify-between bg-fixed bg-cover bg-center relative" style="background-image: url('masjid.jpg');">
 
-  <!-- ==================== HEADER UTAMA & LOGO ==================== -->
-  <header class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-900 text-white shadow-lg sticky top-0 z-50">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <img src="logo.png" alt="Logo DKM Masjid Assyarikah" class="w-11 h-11 rounded-full border-2 border-yellow-400 object-cover shadow bg-white" onerror="this.src='https://via.placeholder.com/100?text=DKM'">
-        <div>
-          <h1 class="text-base md:text-lg font-extrabold tracking-tight text-white leading-tight">
-            DKM Masjid Assyarikah
-          </h1>
-          <p class="text-xs text-emerald-200">Babakan Laban — Portal Resmi & Administrasi</p>
+  <!-- LAPISAN OVERLAY TRANSPARAN DENGAN EFEK BLUR -->
+  <div class="fixed inset-0 bg-slate-100/85 backdrop-blur-sm z-0 pointer-events-none"></div>
+
+  <!-- BUNGKUSAN KONTEN UTAMA -->
+  <div class="relative z-10 flex flex-col min-h-screen justify-between">
+
+    <!-- ==================== HEADER UTAMA & LOGO ==================== -->
+    <header class="bg-gradient-to-r from-emerald-900/95 via-emerald-800/95 to-emerald-900/95 text-white shadow-lg sticky top-0 z-50 backdrop-blur-md">
+      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="logo.png" alt="Logo DKM Masjid Assyarikah" class="w-11 h-11 rounded-full border-2 border-yellow-400 object-cover shadow bg-white" onerror="this.src='https://via.placeholder.com/100?text=DKM'">
+          <div>
+            <h1 class="text-base md:text-lg font-extrabold tracking-tight text-white leading-tight">
+              DKM Masjid Assyarikah
+            </h1>
+            <p class="text-xs text-emerald-200">Babakan Laban — Portal Resmi & Administrasi</p>
+          </div>
         </div>
+        <span class="bg-emerald-950/80 text-emerald-300 text-[10px] md:text-xs px-2.5 py-1 rounded-full border border-emerald-700/50 flex items-center gap-1 font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+        </span>
       </div>
-      <span class="bg-emerald-950/80 text-emerald-300 text-[10px] md:text-xs px-2.5 py-1 rounded-full border border-emerald-700/50 flex items-center gap-1 font-semibold">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
-      </span>
-    </div>
 
-    <!-- MENU TAB NAVIGASI -->
-    <nav class="bg-emerald-950/90 border-t border-emerald-800/60 overflow-x-auto">
-      <div class="max-w-5xl mx-auto flex whitespace-nowrap text-xs md:text-sm font-medium">
-        <button onclick="switchTab('beranda')" id="btn-beranda" class="tab-btn px-4 py-2.5 text-yellow-400 border-b-2 border-yellow-400 font-bold flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-house"></i> Beranda
-        </button>
-        <button onclick="switchTab('kas')" id="btn-kas" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-wallet"></i> Laporan Keuangan
-        </button>
-        <button onclick="switchTab('agenda')" id="btn-agenda" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-calendar-days"></i> Kalender & Agenda
-        </button>
-        <button onclick="switchTab('pengurus')" id="btn-pengurus" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-users"></i> Pengurus
-        </button>
-        <button onclick="switchTab('dokumen')" id="btn-dokumen" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-file-contract"></i> LPJ & Berkas
-        </button>
-        <button onclick="switchTab('admin')" id="btn-admin" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-sliders text-yellow-400"></i> Panel Admin
-        </button>
-      </div>
-    </nav>
-  </header>
-
-  <!-- ==================== KONTEN UTAMA ==================== -->
-  <main class="max-w-5xl mx-auto px-4 py-6 flex-1 w-full">
-
-    <!-- 1. TAB BERANDA -->
-    <section id="tab-beranda" class="tab-content active space-y-6">
-      
-      <!-- HERO BANNER TAMPILAN FOTO MASJID -->
-      <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[260px] md:min-h-[320px] flex items-end">
-        <!-- Foto Latar Belakang Masjid -->
-        <img src="masjid.jpg" alt="Foto Masjid Assyarikah" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200'">
-        
-        <!-- Lapisan Gelap Overlay Agar Teks Jelas -->
-        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/70 to-transparent"></div>
-
-        <!-- Konten Teks Banner -->
-        <div class="relative z-10 p-6 md:p-8 space-y-3 max-w-2xl text-white">
-          <span class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
-            Pusat Informasi DKM
-          </span>
-          <h2 class="text-2xl md:text-3xl font-extrabold leading-tight drop-shadow-md">
-            Selamat Datang di Portal Masjid Assyarikah
-          </h2>
-          <p class="text-xs md:text-sm text-emerald-100 leading-relaxed drop-shadow">
-            Babakan Laban — Mewujudkan masjid yang makmur, transparan, dan ramah jamaah melalui pelayanan dakwah, sosial, serta laporan keuangan terbuka.
-          </p>
+      <!-- MENU TAB NAVIGASI -->
+      <nav class="bg-emerald-950/90 border-t border-emerald-800/60 overflow-x-auto">
+        <div class="max-w-5xl mx-auto flex whitespace-nowrap text-xs md:text-sm font-medium">
+          <button onclick="switchTab('beranda')" id="btn-beranda" class="tab-btn px-4 py-2.5 text-yellow-400 border-b-2 border-yellow-400 font-bold flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-house"></i> Beranda
+          </button>
+          <button onclick="switchTab('kas')" id="btn-kas" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-wallet"></i> Laporan Keuangan
+          </button>
+          <button onclick="switchTab('agenda')" id="btn-agenda" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-calendar-days"></i> Kalender & Agenda
+          </button>
+          <button onclick="switchTab('saran')" id="btn-saran" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-comment-dots"></i> Info & Saran
+          </button>
+          <button onclick="switchTab('pengurus')" id="btn-pengurus" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-users"></i> Pengurus
+          </button>
+          <button onclick="switchTab('dokumen')" id="btn-dokumen" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-folder-closed"></i> Berkas & Dokumen
+          </button>
+          <button onclick="switchTab('admin')" id="btn-admin" class="tab-btn px-4 py-2.5 text-emerald-200 hover:text-white flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-sliders text-yellow-400"></i> Panel Admin
+          </button>
         </div>
-      </div>
+      </nav>
+    </header>
 
-      <!-- JADWAL SHOLAT -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-        <div class="flex items-center justify-between mb-4">
+    <!-- ==================== KONTEN UTAMA ==================== -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-1 w-full">
+
+      <!-- 1. TAB BERANDA -->
+      <section id="tab-beranda" class="tab-content active space-y-6">
+        <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[260px] md:min-h-[320px] flex items-end">
+          <img src="masjid.jpg" alt="Foto Masjid Assyarikah" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200'">
+          <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/70 to-transparent"></div>
+          <div class="relative z-10 p-6 md:p-8 space-y-3 max-w-2xl text-white">
+            <span class="bg-yellow-400 text-emerald-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+              Pusat Informasi DKM
+            </span>
+            <h2 class="text-2xl md:text-3xl font-extrabold leading-tight drop-shadow-md">
+              Selamat Datang di Portal Masjid Assyarikah
+            </h2>
+            <p class="text-xs md:text-sm text-emerald-100 leading-relaxed drop-shadow">
+              Babakan Laban — Mewujudkan masjid yang makmur, transparan, dan ramah jamaah melalui pelayanan dakwah, sosial, serta laporan keuangan terbuka.
+            </p>
+          </div>
+        </div>
+
+        <!-- JADWAL SHOLAT -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+              <i class="fa-solid fa-kaaba text-emerald-600"></i> Jadwal Sholat Hari Ini
+            </h3>
+            <span class="text-xs font-mono font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full" id="tgl-sekarang">
+              Memuat tanggal...
+            </span>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-6 gap-3 text-center">
+            <div class="bg-emerald-50/80 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Imsak</p><p class="text-base font-bold text-emerald-800 font-mono">04:16</p></div>
+            <div class="bg-emerald-50/80 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Subuh</p><p class="text-base font-bold text-emerald-800 font-mono">04:26</p></div>
+            <div class="bg-emerald-50/80 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Dzuhur</p><p class="text-base font-bold text-emerald-800 font-mono">11:48</p></div>
+            <div class="bg-emerald-50/80 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Ashar</p><p class="text-base font-bold text-emerald-800 font-mono">14:56</p></div>
+            <div class="bg-emerald-50/80 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Maghrib</p><p class="text-base font-bold text-emerald-800 font-mono">17:51</p></div>
+            <div class="bg-emerald-50/80 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Isya</p><p class="text-base font-bold text-emerald-800 font-mono">19:00</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. TAB LAPORAN KEUANGAN -->
+      <section id="tab-kas" class="tab-content space-y-6">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-slate-100 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h3 class="text-base font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-2">
+              <i class="fa-solid fa-calculator text-emerald-600"></i> Laporan Keuangan Kas Masjid
+            </h3>
+            <span class="text-xs font-semibold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Realtime</span>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <p class="text-[11px] font-bold text-slate-400 uppercase">Kas Awal</p>
+              <p class="text-lg font-mono font-extrabold text-slate-700 mt-1" id="stat-kas-awal">Rp 0</p>
+            </div>
+            <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+              <p class="text-[11px] font-bold text-emerald-600 uppercase">Terima (Pemasukan)</p>
+              <p class="text-lg font-mono font-extrabold text-emerald-700 mt-1" id="stat-pemasukan">Rp 0</p>
+            </div>
+            <div class="bg-rose-50 p-4 rounded-xl border border-rose-100">
+              <p class="text-[11px] font-bold text-rose-600 uppercase">Keluar (Pengeluaran)</p>
+              <p class="text-lg font-mono font-extrabold text-rose-700 mt-1" id="stat-pengeluaran">Rp 0</p>
+            </div>
+            <div class="bg-emerald-800 text-white p-4 rounded-xl shadow-md">
+              <p class="text-[11px] font-bold text-yellow-300 uppercase">Kas Akhir (Saldo)</p>
+              <p class="text-lg font-mono font-extrabold text-yellow-300 mt-1" id="stat-kas-akhir">Rp 0</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-slate-100">
+          <h3 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2 uppercase tracking-wide">
+            <i class="fa-solid fa-calendar-week text-emerald-600"></i> Laporan Keuangan Per Jum'at
+          </h3>
+          <p class="text-xs text-slate-500 mb-4">(Rincian per pekan berdasarkan tanggal transaksi pada catatan):</p>
+          <div id="container-rekap-jumat" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+            <p class="text-xs text-slate-400 italic col-span-4">Memuat saldo mingguan...</p>
+          </div>
+        </div>
+
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100">
+          <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-emerald-600"></i> Rincian Mutasi Transaksi Kas
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-100 text-xs font-bold text-slate-400 uppercase">
+                  <th class="p-3">Tanggal</th>
+                  <th class="p-3">Keterangan / Rincian</th>
+                  <th class="p-3">Jenis</th>
+                  <th class="p-3 text-right">Nominal</th>
+                </tr>
+              </thead>
+              <tbody id="tabel-kas-body" class="divide-y divide-slate-100 text-xs md:text-sm">
+                <tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Memuat data transaksi...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. TAB AGENDA -->
+      <section id="tab-agenda" class="tab-content space-y-6">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100">
+          <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-day text-emerald-600"></i> Agenda Kajian & Kegiatan DKM
+          </h3>
+          <div id="daftar-agenda-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <p class="text-xs text-slate-400 italic col-span-2">Memuat agenda kegiatan...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. TAB INFO UMUM & KOTAK SARAN -->
+      <section id="tab-saran" class="tab-content space-y-6">
+        <!-- PAPAN INFORMASI UMUM / PENGUMUMAN DKM -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-slate-100 space-y-4">
+          <h3 class="text-base font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-3">
+            <i class="fa-solid fa-bullhorn text-emerald-600"></i> Informasi Umum & Pengumuman DKM
+          </h3>
+          <div id="container-info-umum" class="space-y-3">
+            <p class="text-xs text-slate-400 italic">Memuat pengumuman DKM...</p>
+          </div>
+        </div>
+
+        <!-- FORM KOTAK SARAN JAMAAH -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-slate-100 space-y-4">
           <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-kaaba text-emerald-600"></i> Jadwal Sholat Hari Ini
+            <i class="fa-solid fa-pen-to-square text-emerald-600"></i> Kirim Saran & Aspirasi Jamaah
           </h3>
-          <span class="text-xs font-mono font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full" id="tgl-sekarang">
-            Memuat tanggal...
-          </span>
+          <p class="text-xs text-slate-500">Masukan Anda sangat berharga untuk kemajuan dan kenyamanan Masjid Assyarikah.</p>
+          <form id="form-kirim-saran" class="space-y-3 text-xs">
+            <input type="text" id="saran-nama" placeholder="Nama Anda (Boleh dikosongkan jika Hamba Allah)" class="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white">
+            <textarea id="saran-pesan" rows="4" placeholder="Tuliskan saran, pertanyaan, atau pesan Anda di sini..." required class="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white"></textarea>
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-6 rounded-xl transition flex items-center gap-2 shadow">
+              <i class="fa-solid fa-paper-plane"></i> Kirim Saran
+            </button>
+          </form>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-3 text-center">
-          <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Imsak</p><p class="text-base font-bold text-emerald-800 font-mono">04:16</p></div>
-          <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Subuh</p><p class="text-base font-bold text-emerald-800 font-mono">04:26</p></div>
-          <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Dzuhur</p><p class="text-base font-bold text-emerald-800 font-mono">11:48</p></div>
-          <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Ashar</p><p class="text-base font-bold text-emerald-800 font-mono">14:56</p></div>
-          <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Maghrib</p><p class="text-base font-bold text-emerald-800 font-mono">17:51</p></div>
-          <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-100"><p class="text-xs text-slate-500">Isya</p><p class="text-base font-bold text-emerald-800 font-mono">19:00</p></div>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 2. TAB LAPORAN KEUANGAN & KAS -->
-    <section id="tab-kas" class="tab-content space-y-6">
-      
-      <!-- CARD REKAP KAS UTAMA -->
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 class="text-base font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-2">
-            <i class="fa-solid fa-calculator text-emerald-600"></i> Laporan Keuangan Kas Masjid
+      <!-- 5. TAB PENGURUS -->
+      <section id="tab-pengurus" class="tab-content space-y-6">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100">
+          <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-sitemap text-emerald-600"></i> Susunan Pengurus DKM Assyarikah
           </h3>
-          <span class="text-xs font-semibold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Realtime</span>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-            <p class="text-[11px] font-bold text-slate-400 uppercase">Kas Awal</p>
-            <p class="text-lg font-mono font-extrabold text-slate-700 mt-1" id="stat-kas-awal">Rp 0</p>
-          </div>
-          <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-            <p class="text-[11px] font-bold text-emerald-600 uppercase">Terima (Pemasukan)</p>
-            <p class="text-lg font-mono font-extrabold text-emerald-700 mt-1" id="stat-pemasukan">Rp 0</p>
-          </div>
-          <div class="bg-rose-50 p-4 rounded-xl border border-rose-100">
-            <p class="text-[11px] font-bold text-rose-600 uppercase">Keluar (Pengeluaran)</p>
-            <p class="text-lg font-mono font-extrabold text-rose-700 mt-1" id="stat-pengeluaran">Rp 0</p>
-          </div>
-          <div class="bg-emerald-800 text-white p-4 rounded-xl shadow-md">
-            <p class="text-[11px] font-bold text-yellow-300 uppercase">Kas Akhir (Saldo)</p>
-            <p class="text-lg font-mono font-extrabold text-yellow-300 mt-1" id="stat-kas-akhir">Rp 0</p>
+          <div id="daftar-pengurus-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <p class="text-xs text-slate-400 italic col-span-3">Memuat data pengurus...</p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- KONTEN REKAPITULASI PER JUM'AT -->
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-        <h3 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2 uppercase tracking-wide">
-          <i class="fa-solid fa-calendar-week text-emerald-600"></i> Laporan Keuangan Per Jum'at
-        </h3>
-        <p class="text-xs text-slate-500 mb-4">(Rincian per pekan berdasarkan tanggal transaksi pada catatan):</p>
-        <div id="container-rekap-jumat" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-          <p class="text-xs text-slate-400 italic col-span-4">Memuat saldo mingguan...</p>
+      <!-- 6. TAB BERKAS & DOKUMEN -->
+      <section id="tab-dokumen" class="tab-content space-y-6">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-3">
+          <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2 uppercase tracking-wide border-b border-slate-100 pb-2">
+            <i class="fa-solid fa-folder-open text-amber-500 text-lg"></i> Folder LPJ (Laporan Pertanggungjawaban)
+          </h3>
+          <div id="container-folder-lpj" class="space-y-2"><p class="text-xs text-slate-400 italic">Belum ada dokumen LPJ.</p></div>
         </div>
-      </div>
 
-      <!-- TABEL CATATAN RINCIAN TRANSAKSI -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-        <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-emerald-600"></i> Rincian Mutasi Transaksi Kas
-        </h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="border-b border-slate-100 text-xs font-bold text-slate-400 uppercase">
-                <th class="p-3">Tanggal</th>
-                <th class="p-3">Keterangan / Rincian</th>
-                <th class="p-3">Jenis</th>
-                <th class="p-3 text-right">Nominal</th>
-              </tr>
-            </thead>
-            <tbody id="tabel-kas-body" class="divide-y divide-slate-100 text-xs md:text-sm">
-              <tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Memuat data transaksi...</td></tr>
-            </tbody>
-          </table>
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-3">
+          <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2 uppercase tracking-wide border-b border-slate-100 pb-2">
+            <i class="fa-solid fa-newspaper text-emerald-600 text-lg"></i> Folder Artikel & Buletin
+          </h3>
+          <div id="container-folder-artikel" class="space-y-2"><p class="text-xs text-slate-400 italic">Belum ada artikel.</p></div>
         </div>
-      </div>
-    </section>
 
-    <!-- 3. TAB AGENDA & KALENDER -->
-    <section id="tab-agenda" class="tab-content space-y-6">
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-        <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-calendar-day text-emerald-600"></i> Agenda Kajian & Kegiatan DKM
-        </h3>
-        <div id="daftar-agenda-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <p class="text-xs text-slate-400 italic col-span-2">Memuat agenda kegiatan...</p>
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-3">
+          <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2 uppercase tracking-wide border-b border-slate-100 pb-2">
+            <i class="fa-solid fa-book-open-reader text-indigo-600 text-lg"></i> Folder Materi Kajian & Kitab
+          </h3>
+          <div id="container-folder-kajian" class="space-y-2"><p class="text-xs text-slate-400 italic">Belum ada materi kajian.</p></div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 4. TAB PENGURUS -->
-    <section id="tab-pengurus" class="tab-content space-y-6">
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-        <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-sitemap text-emerald-600"></i> Susunan Pengurus DKM Assyarikah
-        </h3>
-        <div id="daftar-pengurus-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <p class="text-xs text-slate-400 italic col-span-3">Memuat data pengurus...</p>
+      <!-- 7. TAB PANEL ADMIN EDIT DATA -->
+      <section id="tab-admin" class="tab-content space-y-6">
+        <div class="bg-amber-50/90 backdrop-blur-md border border-amber-200 rounded-2xl p-4 text-xs text-amber-800 flex items-center gap-3 shadow">
+          <i class="fa-solid fa-user-gear text-2xl text-amber-600"></i>
+          <div>
+            <p class="font-bold">Panel Input Data Realtime Pengurus</p>
+            <p>Seluruh formulir di bawah ini terhubung langsung ke database Firebase. Data yang diisi akan otomatis tampil di layar jamaah.</p>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- 5. TAB LPJ & BERKAS -->
-    <section id="tab-dokumen" class="tab-content space-y-6">
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-        <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-folder-open text-emerald-600"></i> Arsip Dokumen & LPJ Transparan
-        </h3>
-        <div id="daftar-dokumen-container" class="space-y-3">
-          <p class="text-xs text-slate-400 italic">Memuat daftar berkas...</p>
+        <!-- DAFTAR KOTAK SARAN JAMAAH MASUK -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-inbox text-emerald-600"></i> Kotak Pesan & Saran Dari Jamaah
+          </h4>
+          <div id="container-admin-saran" class="space-y-3">
+            <p class="text-xs text-slate-400 italic">Belum ada saran dari jamaah.</p>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- 6. TAB PANEL ADMIN EDIT DATA -->
-    <section id="tab-admin" class="tab-content space-y-6">
-      <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs text-amber-800 flex items-center gap-3">
-        <i class="fa-solid fa-user-gear text-2xl text-amber-600"></i>
-        <div>
-          <p class="font-bold">Panel Input Data Realtime Pengurus</p>
-          <p>Seluruh formulir di bawah ini terhubung langsung ke database Firebase. Data yang diisi akan otomatis tampil di layar jamaah.</p>
+        <!-- FORM TAMBAH PENGUMUMAN / INFO UMUM -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-bullhorn text-emerald-600"></i> Buat Pengumuman / Informasi Umum
+          </h4>
+          <form id="form-info-umum" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <input type="text" id="info-judul" placeholder="Judul Pengumuman" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <textarea id="info-isi" rows="3" placeholder="Isi detail pengumuman DKM..." required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2"></textarea>
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
+              Terbitkan Pengumuman
+            </button>
+          </form>
         </div>
+
+        <!-- FORM SET KAS AWAL -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-vault text-emerald-600"></i> Atur Nominal Kas Awal Periode
+          </h4>
+          <form id="form-kas-awal" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <input type="number" id="input-kas-awal" placeholder="Nominal Kas Awal (contoh: 4587000)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
+              Update Kas Awal
+            </button>
+          </form>
+        </div>
+
+        <!-- FORM INPUT KAS -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-plus-circle text-emerald-600"></i> Tambah Transaksi Kas (Pemasukan / Pengeluaran)
+          </h4>
+          <form id="form-kas" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <input type="date" id="kas-tanggal" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
+            <select id="kas-jenis" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
+              <option value="pemasukan">Terima / Pemasukan (+)</option>
+              <option value="pengeluaran">Keluar / Pengeluaran (-)</option>
+            </select>
+            <input type="text" id="kas-keterangan" placeholder="Keterangan Rincian Transaksi" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <input type="number" id="kas-nominal" placeholder="Nominal Rp" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
+              Simpan Transaksi Kas
+            </button>
+          </form>
+        </div>
+
+        <!-- FORM TAMBAH SALDO PEKANAN JUM'AT -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-check text-emerald-600"></i> Tambah / Edit Catatan Saldo Per Jum'at
+          </h4>
+          <form id="form-rekap-jumat" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <input type="text" id="jumat-label" placeholder="Label Jum'at (contoh: JUM'AT 1 (s.d. 8 Sept))" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <input type="number" id="jumat-saldo" placeholder="Saldo Kas s.d Tanggal Ini (contoh: 3587000)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
+              Simpan Saldo Per Jum'at
+            </button>
+          </form>
+        </div>
+
+        <!-- FORM INPUT DOKUMEN / FOLDER DOKUMEN -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-folder-plus text-emerald-600"></i> Tambah Berkas Ke Folder (LPJ, Artikel, atau Kajian)
+          </h4>
+          <form id="form-dokumen" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <select id="dokumen-folder" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2 font-bold text-emerald-800">
+              <option value="lpj">📁 Folder LPJ (Laporan Pertanggungjawaban)</option>
+              <option value="artikel">📰 Folder Artikel & Buletin</option>
+              <option value="kajian">📖 Folder Materi Kajian & Kitab</option>
+            </select>
+            <input type="text" id="dokumen-nama" placeholder="Judul Dokumen / Artikel / Kajian" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <input type="url" id="dokumen-link" placeholder="Link File / Google Drive / URL PDF" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
+              Simpan Berkas Ke Folder
+            </button>
+          </form>
+        </div>
+
+        <!-- FORM INPUT AGENDA KEGIATAN -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-plus text-emerald-600"></i> Tambah Agenda / Kajian Baru
+          </h4>
+          <form id="form-agenda" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <input type="text" id="agenda-judul" placeholder="Judul Kajian / Kegiatan" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <input type="date" id="agenda-tanggal" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
+            <input type="text" id="agenda-jam" placeholder="Waktu (contoh: Ba'da Subuh, 19:30 WIB)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
+            <input type="text" id="agenda-penceramah" placeholder="Penceramah / PJ Kegiatan" class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
+              Simpan Agenda Kegiatan
+            </button>
+          </form>
+        </div>
+
+        <!-- FORM INPUT PENGURUS DKM -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-slate-100 space-y-4">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-user-plus text-emerald-600"></i> Tambah / Edit Pengurus DKM
+          </h4>
+          <form id="form-pengurus" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <input type="text" id="pengurus-jabatan" placeholder="Jabatan (contoh: Ketua, Bendahara, Marbot)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
+            <input type="text" id="pengurus-nama" placeholder="Nama Lengkap Pengurus" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
+            <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
+              Simpan Pengurus
+            </button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-slate-900/90 backdrop-blur-md text-slate-400 text-xs py-6 border-t border-slate-800">
+      <div class="max-w-5xl mx-auto px-4 text-center space-y-2">
+        <p class="font-semibold text-slate-300">DKM Masjid Assyarikah Babakan Laban © 2026</p>
+        <p class="text-[11px] text-slate-500">Mewujudkan Transparansi & Kemakmuran Masjid Berbasis Digital</p>
       </div>
+    </footer>
 
-      <!-- FORM 1: SET KAS AWAL MASJID -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-4">
-        <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-vault text-emerald-600"></i> Atur Nominal Kas Awal Periode
-        </h4>
-        <form id="form-kas-awal" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <input type="number" id="input-kas-awal" placeholder="Nominal Kas Awal (contoh: 4587000)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
-            Update Kas Awal
-          </button>
-        </form>
-      </div>
-
-      <!-- FORM 2: INPUT TRANSAKSI KAS -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-4">
-        <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-plus-circle text-emerald-600"></i> Tambah Transaksi Kas (Pemasukan / Pengeluaran)
-        </h4>
-        <form id="form-kas" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <input type="date" id="kas-tanggal" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
-          <select id="kas-jenis" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
-            <option value="pemasukan">Terima / Pemasukan (+)</option>
-            <option value="pengeluaran">Keluar / Pengeluaran (-)</option>
-          </select>
-          <input type="text" id="kas-keterangan" placeholder="Keterangan Rincian Transaksi" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <input type="number" id="kas-nominal" placeholder="Nominal Rp" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
-            Simpan Transaksi Kas
-          </button>
-        </form>
-      </div>
-
-      <!-- FORM 3: TAMBAH SALDO PEKANAN JUM'AT -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-4">
-        <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-calendar-check text-emerald-600"></i> Tambah / Edit Catatan Saldo Per Jum'at
-        </h4>
-        <form id="form-rekap-jumat" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <input type="text" id="jumat-label" placeholder="Label Jum'at (contoh: JUM'AT 1 (s.d. 8 Sept))" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <input type="number" id="jumat-saldo" placeholder="Saldo Kas s.d Tanggal Ini (contoh: 3587000)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
-            Simpan Saldo Per Jum'at
-          </button>
-        </form>
-      </div>
-
-      <!-- FORM 4: INPUT AGENDA KEGIATAN -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-4">
-        <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-calendar-plus text-emerald-600"></i> Tambah Agenda / Kajian Baru
-        </h4>
-        <form id="form-agenda" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <input type="text" id="agenda-judul" placeholder="Judul Kajian / Kegiatan" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <input type="date" id="agenda-tanggal" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
-          <input type="text" id="agenda-jam" placeholder="Waktu (contoh: Ba'da Subuh, 19:30 WIB)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
-          <input type="text" id="agenda-penceramah" placeholder="Penceramah / PJ Kegiatan" class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
-            Simpan Agenda Kegiatan
-          </button>
-        </form>
-      </div>
-
-      <!-- FORM 5: INPUT PENGURUS DKM -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-4">
-        <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-user-plus text-emerald-600"></i> Tambah / Edit Pengurus DKM
-        </h4>
-        <form id="form-pengurus" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <input type="text" id="pengurus-jabatan" placeholder="Jabatan (contoh: Ketua, Bendahara, Marbot)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
-          <input type="text" id="pengurus-nama" placeholder="Nama Lengkap Pengurus" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white">
-          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
-            Simpan Pengurus
-          </button>
-        </form>
-      </div>
-
-      <!-- FORM 6: INPUT DOKUMEN LPJ -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-4">
-        <h4 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-file-circle-plus text-emerald-600"></i> Tambah Link Dokumen / LPJ
-        </h4>
-        <form id="form-dokumen" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <input type="text" id="dokumen-nama" placeholder="Nama Dokumen (contoh: LPJ PHBI Ramadhan)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <input type="url" id="dokumen-link" placeholder="Link File (Google Drive / PDF URL)" required class="p-2.5 border rounded-xl bg-slate-50 focus:bg-white md:col-span-2">
-          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-2.5 rounded-xl transition md:col-span-2">
-            Simpan Link Dokumen
-          </button>
-        </form>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ==================== FOOTER ==================== -->
-  <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800">
-    <div class="max-w-5xl mx-auto px-4 text-center space-y-2">
-      <p class="font-semibold text-slate-300">DKM Masjid Assyarikah Babakan Laban © 2026</p>
-      <p class="text-[11px] text-slate-500">Mewujudkan Transparansi & Kemakmuran Masjid Berbasis Digital</p>
-    </div>
-  </footer>
+  </div>
 
   <!-- ==================== LOGIKA JAVASCRIPT & FIREBASE ==================== -->
   <script type="module">
@@ -415,7 +484,7 @@
             const saldo = Number(d.saldo) || 0;
 
             html += `
-              <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-100 flex items-center justify-between">
+              <div class="bg-emerald-50/80 p-4 rounded-xl border border-emerald-100 flex items-center justify-between">
                 <div>
                   <p class="text-xs font-bold text-slate-700">${d.label || 'JUMAT'}</p>
                   <p class="text-base font-mono font-extrabold text-emerald-800 mt-1">Rp ${saldo.toLocaleString('id-ID')}</p>
@@ -429,6 +498,88 @@
       });
     }
 
+    // INFORMASI UMUM & KOTAK SARAN
+    function initInfoDanSaranRealtime() {
+      // Baca Info Umum
+      onSnapshot(collection(db, "info_umum"), (snapshot) => {
+        let html = "";
+        if (snapshot.empty) {
+          html = `<p class="text-xs text-slate-400 italic">Belum ada pengumuman umum.</p>`;
+        } else {
+          snapshot.forEach((docSnap) => {
+            const d = docSnap.data();
+            const id = docSnap.id;
+            html += `
+              <div class="p-4 bg-emerald-50/80 rounded-xl border border-emerald-100 flex items-start justify-between">
+                <div>
+                  <h4 class="text-sm font-bold text-emerald-950">${d.judul || 'Pengumuman'}</h4>
+                  <p class="text-xs text-slate-700 mt-1 whitespace-pre-line">${d.isi || '-'}</p>
+                </div>
+                <button onclick="hapusDokumen('info_umum', '${id}')" class="text-rose-400 hover:text-rose-600 text-xs"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            `;
+          });
+        }
+        document.getElementById("container-info-umum").innerHTML = html;
+      });
+
+      // Baca Saran Jamaah Untuk Panel Admin
+      onSnapshot(collection(db, "saran_jamaah"), (snapshot) => {
+        let htmlAdmin = "";
+        if (snapshot.empty) {
+          htmlAdmin = `<p class="text-xs text-slate-400 italic">Belum ada saran dari jamaah.</p>`;
+        } else {
+          snapshot.forEach((docSnap) => {
+            const d = docSnap.data();
+            const id = docSnap.id;
+            htmlAdmin += `
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs flex items-start justify-between">
+                <div>
+                  <p class="font-bold text-emerald-800"><i class="fa-solid fa-user-circle"></i> ${d.nama || 'Hamba Allah'}</p>
+                  <p class="text-slate-700 mt-1">${d.pesan || '-'}</p>
+                </div>
+                <button onclick="hapusDokumen('saran_jamaah', '${id}')" class="text-rose-400 hover:text-rose-600 text-xs"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            `;
+          });
+        }
+        document.getElementById("container-admin-saran").innerHTML = htmlAdmin;
+      });
+    }
+
+    function initDokumenRealtime() {
+      onSnapshot(collection(db, "dokumen_lpj"), (snapshot) => {
+        let htmlLPJ = "", htmlArtikel = "", htmlKajian = "";
+
+        snapshot.forEach((docSnap) => {
+          const d = docSnap.data();
+          const id = docSnap.id;
+          const folder = d.folder || 'lpj';
+
+          const itemHTML = `
+            <div class="flex items-center justify-between p-3 bg-slate-50/90 rounded-xl border border-slate-100 text-xs">
+              <div class="flex items-center gap-2.5">
+                <i class="fa-solid ${folder === 'lpj' ? 'fa-file-pdf text-rose-500' : folder === 'artikel' ? 'fa-file-lines text-emerald-600' : 'fa-book text-indigo-600'} text-base"></i>
+                <span class="font-semibold text-slate-800">${d.nama || 'Dokumen'}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <a href="${d.link || '#'}" target="_blank" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold shadow hover:bg-emerald-700 transition">Buka File</a>
+                <button onclick="hapusDokumen('dokumen_lpj', '${id}')" class="text-rose-400 hover:text-rose-600"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+          `;
+
+          if (folder === 'artikel') htmlArtikel += itemHTML;
+          else if (folder === 'kajian') htmlKajian += itemHTML;
+          else htmlLPJ += itemHTML;
+        });
+
+        document.getElementById("container-folder-lpj").innerHTML = htmlLPJ || `<p class="text-xs text-slate-400 italic">Belum ada dokumen LPJ.</p>`;
+        document.getElementById("container-folder-artikel").innerHTML = htmlArtikel || `<p class="text-xs text-slate-400 italic">Belum ada artikel.</p>`;
+        document.getElementById("container-folder-kajian").innerHTML = htmlKajian || `<p class="text-xs text-slate-400 italic">Belum ada materi kajian.</p>`;
+      });
+    }
+
     function initAgendaRealtime() {
       onSnapshot(collection(db, "agenda_kegiatan"), (snapshot) => {
         let html = "";
@@ -439,7 +590,7 @@
             const d = docSnap.data();
             const id = docSnap.id;
             html += `
-              <div class="bg-emerald-50/60 border border-emerald-100 p-4 rounded-xl flex items-start justify-between">
+              <div class="bg-emerald-50/80 border border-emerald-100 p-4 rounded-xl flex items-start justify-between">
                 <div>
                   <span class="bg-emerald-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">${d.tanggal || ''} | ${d.jam || ''}</span>
                   <h4 class="text-sm font-bold text-slate-800 mt-2">${d.judul || '-'}</h4>
@@ -464,7 +615,7 @@
             const d = docSnap.data();
             const id = docSnap.id;
             html += `
-              <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center relative group">
+              <div class="bg-slate-50/90 p-4 rounded-xl border border-slate-100 text-center relative group">
                 <p class="font-bold text-slate-800">${d.jabatan || 'Pengurus'}</p>
                 <p class="text-xs text-emerald-700 font-semibold mt-1">${d.nama || '-'}</p>
                 <button onclick="hapusDokumen('pengurus_dkm', '${id}')" class="mt-2 text-rose-400 hover:text-rose-600 text-xs"><i class="fa-solid fa-trash"></i> Hapus</button>
@@ -476,32 +627,43 @@
       });
     }
 
-    function initDokumenRealtime() {
-      onSnapshot(collection(db, "dokumen_lpj"), (snapshot) => {
-        let html = "";
-        if (snapshot.empty) {
-          html = `<p class="text-xs text-slate-400 italic">Belum ada berkas LPJ tersimpan.</p>`;
-        } else {
-          snapshot.forEach((docSnap) => {
-            const d = docSnap.data();
-            const id = docSnap.id;
-            html += `
-              <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
-                <div class="flex items-center gap-2">
-                  <i class="fa-solid fa-file-pdf text-rose-500 text-base"></i>
-                  <span class="font-semibold text-slate-700">${d.nama || 'Dokumen LPJ'}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <a href="${d.link || '#'}" target="_blank" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-[10px] font-bold">Buka File</a>
-                  <button onclick="hapusDokumen('dokumen_lpj', '${id}')" class="text-rose-400 hover:text-rose-600"><i class="fa-solid fa-trash"></i></button>
-                </div>
-              </div>
-            `;
-          });
-        }
-        document.getElementById("daftar-dokumen-container").innerHTML = html;
-      });
-    }
+    // SUBMIT HANDLERS
+    document.getElementById("form-kirim-saran").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await addDoc(collection(db, "saran_jamaah"), {
+          nama: document.getElementById("saran-nama").value || "Hamba Allah",
+          pesan: document.getElementById("saran-pesan").value
+        });
+        alert("Terima kasih! Saran Anda telah berhasil dikirim ke Pengurus DKM.");
+        document.getElementById("form-kirim-saran").reset();
+      } catch (err) { alert("Gagal mengirim: " + err.message); }
+    });
+
+    document.getElementById("form-info-umum").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await addDoc(collection(db, "info_umum"), {
+          judul: document.getElementById("info-judul").value,
+          isi: document.getElementById("info-isi").value
+        });
+        alert("Pengumuman Berhasil Diterbitkan!");
+        document.getElementById("form-info-umum").reset();
+      } catch (err) { alert("Error: " + err.message); }
+    });
+
+    document.getElementById("form-dokumen").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await addDoc(collection(db, "dokumen_lpj"), {
+          folder: document.getElementById("dokumen-folder").value,
+          nama: document.getElementById("dokumen-nama").value,
+          link: document.getElementById("dokumen-link").value
+        });
+        alert("Berkas Berhasil Disimpan Ke Folder!");
+        document.getElementById("form-dokumen").reset();
+      } catch (err) { alert("Error: " + err.message); }
+    });
 
     document.getElementById("form-kas-awal").addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -566,18 +728,6 @@
       } catch (err) { alert("Error: " + err.message); }
     });
 
-    document.getElementById("form-dokumen").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      try {
-        await addDoc(collection(db, "dokumen_lpj"), {
-          nama: document.getElementById("dokumen-nama").value,
-          link: document.getElementById("dokumen-link").value
-        });
-        alert("Dokumen Berhasil Disimpan!");
-        document.getElementById("form-dokumen").reset();
-      } catch (err) { alert("Error: " + err.message); }
-    });
-
     window.hapusDokumen = async function(koleksi, id) {
       if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
         await deleteDoc(doc(db, koleksi, id));
@@ -587,6 +737,7 @@
     initKasAwalRealtime();
     initKasRealtime();
     initRekapJumatRealtime();
+    initInfoDanSaranRealtime();
     initAgendaRealtime();
     initPengurusRealtime();
     initDokumenRealtime();
