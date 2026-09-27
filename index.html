@@ -235,13 +235,37 @@
                 </form>
             </div>
 
-            <!-- 7. TAB PROFIL PENGURUS -->
-            <div id="tab-profil" class="tab-content space-y-4">
-                <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase">Susunan Pengurus DKM</h3>
-                <div id="daftar-pengurus-container" class="grid grid-cols-2 gap-2 text-xs">
-                    <p class="text-xs text-gray-400 italic col-span-2">Memuat pengurus...</p>
-                </div>
-            </div>
+            <!-- 7. TAB PROFIL PENGURUS & STRUKTUR ORGANISASI -->
+<div id="tab-profil" class="tab-content space-y-4">
+    <!-- Kartu Informasi Detail Masjid -->
+    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-2 text-xs">
+        <h3 class="font-bold text-emerald-900 uppercase text-sm border-b pb-2 flex items-center gap-2">
+            <i class="fa-solid fa-mosque text-emerald-700"></i> Profil Masjid Assyarikah
+        </h3>
+        <p><span class="font-bold text-gray-700">Alamat:</span> Kp. Babakan Laban, Desa Bojongpicung, Kec. Bojongpicung, Kab. Cianjur</p>
+        <p><span class="font-bold text-gray-700">Periode DKM:</span> 2024 - 2028</p>
+    </div>
+
+    <!-- Gambar Struktur Organisasi -->
+    <div class="bg-white p-3 rounded-2xl border border-emerald-100 shadow-sm space-y-2">
+        <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-sitemap text-emerald-600"></i> Bagan Struktur Organisasi DKM
+        </h4>
+        <div class="overflow-hidden rounded-xl border bg-slate-50">
+            <img src="struktur.png" alt="Struktur Organisasi DKM Masjid Assyarikah" class="w-full h-auto object-cover cursor-pointer hover:opacity-95 transition" onclick="window.open(this.src, '_blank')">
+        </div>
+        <p class="text-[10px] text-gray-400 italic text-center">* Ketuk gambar untuk memperbesar</p>
+    </div>
+
+    <!-- Susunan Pengurus versi Firestore Realtime -->
+    <div>
+        <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase mb-2">Daftar Pengurus Harian</h3>
+        <div id="daftar-pengurus-container" class="grid grid-cols-2 gap-2 text-xs">
+            <p class="text-xs text-gray-400 italic col-span-2">Memuat pengurus...</p>
+        </div>
+    </div>
+</div>
+
 
             <!-- 8. TAB PANEL ADMIN EDIT DATA -->
             <div id="tab-admin" class="tab-content space-y-4">
