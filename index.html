@@ -21,7 +21,7 @@
 </head>
 <body class="flex justify-center min-h-screen bg-fixed bg-cover bg-center relative" style="background-image: url('masjid.jpg');">
 
-    <!-- Overlay Gelap Tipis -->
+    <!-- Overlay Gelap Tipis Tanpa Blur Agar Background Masjid Jelas -->
     <div class="fixed inset-0 bg-black/30 z-0 pointer-events-none"></div>
 
     <!-- Container Utama Aplikasi Mobile -->
@@ -48,7 +48,7 @@
                 <!-- 1. TAB BERANDA -->
                 <div id="tab-beranda" class="tab-content active space-y-4">
                     
-                    <!-- Card Shalat Berikutnya -->
+                    <!-- Card Shalat Berikutnya & Hitung Mundur Azan -->
                     <div class="bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900 text-white rounded-2xl p-5 shadow-md relative overflow-hidden">
                         <div class="flex justify-between items-start">
                             <div>
@@ -70,6 +70,7 @@
                             </span>
                         </div>
 
+                        <!-- Tombol Aktivasi Suara Azan/Tarhim -->
                         <div class="mt-3 pt-2 border-t border-emerald-700/40 flex items-center justify-between">
                             <span class="text-[10px] text-emerald-200">Suara Pengingat Azan</span>
                             <button id="btn-suara" onclick="toggleAudio()" class="bg-emerald-700/80 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-[10px] font-semibold flex items-center gap-1 transition border border-emerald-500/30">
@@ -343,7 +344,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT FIREBASE & LOGIC -->
+    <!-- SCRIPT FIREBASE & JAVASCRIPT LOGIC -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDummyApiKeyForDKMAssyarikah2026",
@@ -384,12 +385,9 @@
                 navBtn.classList.remove('text-gray-400');
                 navBtn.classList.add('text-emerald-700');
             }
-
-            // Muat ulang daftar kajian agar tombol hapus muncul jika di tab admin
-            if (typeof loadAgendaRealtime === 'function') loadAgendaRealtime();
         }
 
-        // AZAN & SUARA
+        // AZAN & SUARA PENGINGAT
         let isAudioEnabled = false;
         let audioAzan = new Audio('https://cdn.islamicfinder.org/adhan/athan1.mp3');
 
@@ -546,135 +544,95 @@
             });
 
             // Dokumen Realtime
-            db.collection('dokumen').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-                let docHtml = '';
-                snapshot.docs.forEach(doc => {
-                    const item = doc.data();
-                    docHtml += `
-                    <a href="${item.link}" target="_blank" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex justify-between items-center hover:border-rose-300 transition">
-                        <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-file-pdf text-base"></i></div>
-                            <div>
-                                <h4 class="font-bold text-gray-800 text-xs">${item.judul}</h4>
-                                <span class="text-[10px] text-gray-400">Klik untuk melihat/unduh berkas</span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-gray-400"></i>
-                    </a>
-                    `;
-                });
-                document.getElementById('daftar-dokumen-container').innerHTML = docHtml || '<p class="text-xs text-gray-400 italic">Belum ada dokumen LPJ yang diunggah.</p>';
-            });
-
+            loadDokumenRealtime();
             loadAgendaRealtime();
             loadArtikelRealtime();
         }
 
-        
-        // 1. DOKUMEN / LPJ REALTIME (DENGAN TOMBOL HAPUS)
-function loadDokumenRealtime() {
-    db.collection('dokumen').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-        let docHtml = '';
-        snapshot.docs.forEach(doc => {
-            const item = doc.data();
-            const docId = doc.id;
-
-            docHtml += `
-            <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex justify-between items-center hover:border-rose-300 transition">
-                <a href="${item.link}" target="_blank" class="flex items-center gap-3 flex-1 min-w-0 mr-2">
-                    <div class="w-9 h-9 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-base"></i></div>
-                    <div class="truncate">
-                        <h4 class="font-bold text-gray-800 text-xs truncate">${item.judul}</h4>
-                        <span class="text-[10px] text-gray-400">Klik untuk melihat/unduh berkas</span>
-                    </div>
-                </a>
-                <button onclick="hapusDokumen('${docId}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 transition text-xs flex items-center gap-1 font-semibold flex-shrink-0" title="Hapus Dokumen">
-                    <i class="fa-solid fa-trash-can"></i> Hapus
-                </button>
-            </div>
-            `;
-        });
-        document.getElementById('daftar-dokumen-container').innerHTML = docHtml || '<p class="text-xs text-gray-400 italic">Belum ada dokumen LPJ yang diunggah.</p>';
-    });
-}
-
-// FUNGSI HAPUS DOKUMEN
-function hapusDokumen(docId) {
-    const pin = prompt("Masukkan PIN Admin untuk menghapus dokumen ini:");
-    if (pin !== PIN_ADMIN) {
-        alert("PIN Salah! Dokumen tidak dihapus.");
-        return;
-    }
-
-    if (confirm("Apakah Anda yakin ingin menghapus dokumen ini secara permanen?")) {
-        db.collection('dokumen').doc(docId).delete().then(() => {
-            alert("Dokumen berhasil dihapus!");
-        }).catch(error => {
-            console.error("Gagal menghapus dokumen:", error);
-            alert("Gagal menghapus dari Firebase: " + error.message);
-        });
-    }
-}
-
-
-// 2. ARTIKEL REALTIME (DENGAN TOMBOL HAPUS)
-function loadArtikelRealtime() {
-    db.collection('artikel').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-        const container = document.getElementById('daftar-artikel-container');
-        if (!container) return;
-
-        if (snapshot.empty) {
-            container.innerHTML = '<p class="text-xs text-gray-400 italic">Belum ada artikel yang diterbitkan.</p>';
-            return;
-        }
-
-        dataArtikel = [];
-        let html = '';
-
-        snapshot.docs.forEach(doc => {
-            const item = doc.data();
-            const docId = doc.id;
-            dataArtikel.push({ id: docId, ...item });
-
-            html += `
-            <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center hover:border-emerald-200 transition relative">
-                <img src="${item.gambarUrl}" alt="${item.judul}" onclick="bukaArtikel('${docId}')" class="w-20 h-20 object-cover rounded-xl border flex-shrink-0 cursor-pointer">
-                <div class="flex-1 min-w-0 space-y-1">
-                    <div class="flex justify-between items-start">
-                        <span class="text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-medium">${item.tanggal || 'Artikel DKM'}</span>
-                        <!-- Tombol Hapus Artikel -->
-                        <button onclick="hapusArtikel('${docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded bg-rose-50 hover:bg-rose-100 transition text-[10px] font-bold flex items-center gap-1" title="Hapus Artikel">
+        // 1. DOKUMEN REALTIME + FITUR HAPUS PIN
+        function loadDokumenRealtime() {
+            db.collection('dokumen').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+                let docHtml = '';
+                snapshot.docs.forEach(doc => {
+                    const item = doc.data();
+                    const docId = doc.id;
+                    docHtml += `
+                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex justify-between items-center hover:border-rose-300 transition">
+                        <a href="${item.link}" target="_blank" class="flex items-center gap-3 flex-1 min-w-0 mr-2">
+                            <div class="w-9 h-9 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-base"></i></div>
+                            <div class="truncate">
+                                <h4 class="font-bold text-gray-800 text-xs truncate">${item.judul}</h4>
+                                <span class="text-[10px] text-gray-400">Klik untuk melihat/unduh berkas</span>
+                            </div>
+                        </a>
+                        <button onclick="hapusDokumen('${docId}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 transition text-xs font-semibold flex-shrink-0 flex items-center gap-1" title="Hapus Dokumen">
                             <i class="fa-solid fa-trash-can"></i> Hapus
                         </button>
                     </div>
-                    <h4 onclick="bukaArtikel('${docId}')" class="font-bold text-gray-800 text-xs line-clamp-2 leading-snug cursor-pointer">${item.judul}</h4>
-                    <p onclick="bukaArtikel('${docId}')" class="text-[10px] text-gray-400 line-clamp-1 cursor-pointer">${item.isi}</p>
-                </div>
-            </div>
-            `;
-        });
+                    `;
+                });
+                document.getElementById('daftar-dokumen-container').innerHTML = docHtml || '<p class="text-xs text-gray-400 italic">Belum ada dokumen LPJ yang diunggah.</p>';
+            });
+        }
 
-        container.innerHTML = html;
-    });
-}
+        function hapusDokumen(docId) {
+            const pin = prompt("Masukkan PIN Admin untuk menghapus dokumen ini:");
+            if (pin !== PIN_ADMIN) return alert("PIN Salah!");
 
-// FUNGSI HAPUS ARTIKEL
-function hapusArtikel(docId) {
-    const pin = prompt("Masukkan PIN Admin untuk menghapus artikel ini:");
-    if (pin !== PIN_ADMIN) {
-        alert("PIN Salah! Artikel tidak dihapus.");
-        return;
-    }
+            if (confirm("Yakin ingin menghapus dokumen ini?")) {
+                db.collection('dokumen').doc(docId).delete().then(() => alert("Dokumen dihapus!"));
+            }
+        }
 
-    if (confirm("Apakah Anda yakin ingin menghapus artikel ini secara permanen?")) {
-        db.collection('artikel').doc(docId).delete().then(() => {
-            alert("Artikel berhasil dihapus!");
-        }).catch(error => {
-            console.error("Gagal menghapus artikel:", error);
-            alert("Gagal menghapus dari Firebase: " + error.message);
-        });
-    }
-}
+        // 2. AGENDA REALTIME + FITUR HAPUS PIN
+        function loadAgendaRealtime() {
+            db.collection('agenda').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+                let agendaHtml = '';
+                snapshot.docs.forEach(doc => {
+                    const item = doc.data();
+                    const docId = doc.id;
+
+                    let fotoHtml = '';
+                    if (item.fotoUrl && item.fotoUrl.trim() !== '') {
+                        fotoHtml = `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border border-emerald-100 flex-shrink-0 shadow-xs" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200';">`;
+                    } else {
+                        fotoHtml = `<div class="w-16 h-20 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center flex-shrink-0 border border-emerald-200">
+                                        <i class="fa-solid fa-book-quran text-2xl"></i>
+                                    </div>`;
+                    }
+
+                    agendaHtml += `
+                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center relative">
+                        ${fotoHtml}
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-start">
+                                <span class="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">
+                                    ${item.tanggal || ''} | ${item.waktu || ''}
+                                </span>
+                                <button onclick="hapusAgenda('${docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded bg-rose-50 hover:bg-rose-100 transition text-[10px] font-bold flex items-center gap-1" title="Hapus Kajian">
+                                    <i class="fa-solid fa-trash-can"></i> Hapus
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-gray-800 text-xs mt-1 truncate">${item.judul || ''}</h4>
+                            <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+                                <i class="fa-solid fa-user-tie text-emerald-600"></i> ${item.penceramah || ''}
+                            </p>
+                        </div>
+                    </div>
+                    `;
+                });
+                document.getElementById('daftar-agenda-container').innerHTML = agendaHtml || '<p class="text-xs text-gray-400 italic">Belum ada jadwal kajian.</p>';
+            });
+        }
+
+        function hapusAgenda(docId) {
+            const pin = prompt("Masukkan PIN Admin untuk menghapus kajian ini:");
+            if (pin !== PIN_ADMIN) return alert("PIN Salah!");
+
+            if (confirm("Yakin ingin menghapus kajian ini?")) {
+                db.collection('agenda').doc(docId).delete().then(() => alert("Kajian berhasil dihapus!"));
+            }
+        }
 
         function hitungKasTotal() {
             const masuk = window.totalMasukCache || 0;
@@ -686,7 +644,7 @@ function hapusArtikel(docId) {
             document.getElementById('kas-saldo-val').innerText = `Rp ${saldoAkhir.toLocaleString('id-ID')}`;
         }
 
-        // ARTIKEL LOGIC
+        // 3. ARTIKEL REALTIME + FITUR HAPUS PIN
         let dataArtikel = [];
         function loadArtikelRealtime() {
             db.collection('artikel').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
@@ -703,15 +661,21 @@ function hapusArtikel(docId) {
 
                 snapshot.docs.forEach(doc => {
                     const item = doc.data();
-                    dataArtikel.push({ id: doc.id, ...item });
+                    const docId = doc.id;
+                    dataArtikel.push({ id: docId, ...item });
 
                     html += `
-                    <div onclick="bukaArtikel('${doc.id}')" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center cursor-pointer hover:border-emerald-200 transition">
-                        <img src="${item.gambarUrl}" alt="${item.judul}" class="w-20 h-20 object-cover rounded-xl border flex-shrink-0">
+                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center hover:border-emerald-200 transition relative">
+                        <img src="${item.gambarUrl}" alt="${item.judul}" onclick="bukaArtikel('${docId}')" class="w-20 h-20 object-cover rounded-xl border flex-shrink-0 cursor-pointer">
                         <div class="flex-1 min-w-0 space-y-1">
-                            <span class="text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-medium">${item.tanggal || 'Artikel DKM'}</span>
-                            <h4 class="font-bold text-gray-800 text-xs line-clamp-2 leading-snug">${item.judul}</h4>
-                            <p class="text-[10px] text-gray-400 line-clamp-1">${item.isi}</p>
+                            <div class="flex justify-between items-start">
+                                <span class="text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-medium">${item.tanggal || 'Artikel DKM'}</span>
+                                <button onclick="hapusArtikel('${docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded bg-rose-50 hover:bg-rose-100 transition text-[10px] font-bold flex items-center gap-1" title="Hapus Artikel">
+                                    <i class="fa-solid fa-trash-can"></i> Hapus
+                                </button>
+                            </div>
+                            <h4 onclick="bukaArtikel('${docId}')" class="font-bold text-gray-800 text-xs line-clamp-2 leading-snug cursor-pointer">${item.judul}</h4>
+                            <p onclick="bukaArtikel('${docId}')" class="text-[10px] text-gray-400 line-clamp-1 cursor-pointer">${item.isi}</p>
                         </div>
                     </div>
                     `;
@@ -719,6 +683,15 @@ function hapusArtikel(docId) {
 
                 container.innerHTML = html;
             });
+        }
+
+        function hapusArtikel(docId) {
+            const pin = prompt("Masukkan PIN Admin untuk menghapus artikel ini:");
+            if (pin !== PIN_ADMIN) return alert("PIN Salah!");
+
+            if (confirm("Yakin ingin menghapus artikel ini?")) {
+                db.collection('artikel').doc(docId).delete().then(() => alert("Artikel dihapus!"));
+            }
         }
 
         function bukaArtikel(id) {
@@ -737,7 +710,7 @@ function hapusArtikel(docId) {
             document.getElementById('modal-baca-artikel').classList.add('hidden');
         }
 
-        // FUNGSI ADMIN
+        // FUNGSI SIMPAN DI PANEL ADMIN
         async function simpanSettingKas() {
             const kasAwal = document.getElementById('input-kas-awal').value;
             const ket = document.getElementById('input-kas-keterangan').value;
