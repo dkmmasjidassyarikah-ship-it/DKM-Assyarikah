@@ -79,7 +79,7 @@
                         </div>
                     </div>
 
-                    <!-- WIDGET KALENDER MASEHI & HIJRIAH REALTIME -->
+                    <!-- WIDGET KALENDER MASEHI & HIJRIAH REALTIME AKURAT -->
                     <div class="bg-white p-3.5 rounded-2xl border border-emerald-100 shadow-xs flex justify-between items-center text-xs">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center font-bold text-base flex-shrink-0">
@@ -259,7 +259,7 @@
                         <button onclick="switchTab('beranda')" class="text-amber-800 underline font-bold">Keluar</button>
                     </div>
 
-                    <!-- FORM 1: SETTING KAS AWAL & SALDO BENDAHARA (DIPISAH) -->
+                    <!-- FORM 1: SETTING KAS AWAL & SALDO BENDAHARA (TERPISAH) -->
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
                         <h4 class="font-bold text-xs text-emerald-900 uppercase flex items-center gap-1.5">
                             <i class="fa-solid fa-vault text-emerald-600"></i> 1. Form Kas Awal & Saldo Bendahara
@@ -279,7 +279,7 @@
                         <button onclick="simpanSettingKas()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-2 rounded-xl text-xs transition">Simpan Setting Kas</button>
                     </div>
 
-                    <!-- FORM 2: TAMBAH PEMASUKAN KAS (DIPISAH) -->
+                    <!-- FORM 2: TAMBAH PEMASUKAN KAS (TERPISAH) -->
                     <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-3">
                         <h4 class="font-bold text-xs text-emerald-700 uppercase flex items-center gap-1.5">
                             <i class="fa-solid fa-circle-plus text-emerald-600"></i> 2. Form Pemasukan Kas (+)
@@ -289,7 +289,7 @@
                         <button onclick="simpanPemasukan()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition">+ Simpan Pemasukan</button>
                     </div>
 
-                    <!-- FORM 3: TAMBAH PENGELUARAN KAS (DIPISAH) -->
+                    <!-- FORM 3: TAMBAH PENGELUARAN KAS (TERPISAH) -->
                     <div class="bg-white p-4 rounded-2xl border border-rose-100 shadow-sm space-y-3">
                         <h4 class="font-bold text-xs text-rose-700 uppercase flex items-center gap-1.5">
                             <i class="fa-solid fa-circle-minus text-rose-600"></i> 3. Form Pengeluaran Kas (-)
@@ -452,18 +452,22 @@
             }
         }
 
-        // KALENDER MASEHI & HIJRIAH REALTIME
+        // KALENDER MASEHI & HIJRIAH REALTIME AKURAT
         function updateKalender() {
             const now = new Date();
+            
+            // Format Masehi
             const opsiMasehi = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const tglMasehiStr = now.toLocaleDateString('id-ID', opsiMasehi);
             
+            // Format Hijriah Realtime Akurat
             let tglHijriahStr = '';
             try {
                 const opsiHijriah = { day: 'numeric', month: 'long', year: 'numeric' };
-                tglHijriahStr = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura', opsiHijriah).format(now) + ' H';
+                tglHijriahStr = new Intl.DateTimeFormat('id-TN-u-ca-islamic-umalqura', opsiHijriah).format(now) + ' H';
             } catch (e) {
-                tglHijriahStr = '1447 H';
+                const opsiHijriahAlt = { day: 'numeric', month: 'long', year: 'numeric' };
+                tglHijriahStr = new Intl.DateTimeFormat('id-ID-u-ca-islamic', opsiHijriahAlt).format(now) + ' H';
             }
 
             document.getElementById('tgl-masehi').innerText = tglMasehiStr;
@@ -600,7 +604,7 @@
                 hitungKasTotal();
             });
 
-            // Kas Realtime
+            // Kas Realtime dengan Tombol Hapus
             db.collection('kas').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
                 let totalPemasukan = 0;
                 let totalPengeluaran = 0;
@@ -608,21 +612,27 @@
 
                 snapshot.docs.forEach(doc => {
                     const item = doc.data();
+                    const docId = doc.id;
                     const nominal = Number(item.nominal) || 0;
                     if (item.tipe === 'masuk') totalPemasukan += nominal;
                     else totalPengeluaran += nominal;
 
                     kasHtml += `
-                    <div class="bg-white p-3 rounded-xl border border-gray-100 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-gray-800">${item.keterangan || 'Transaksi'}</p>
-                            <span class="text-[10px] ${item.tipe === 'masuk' ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'} px-2 py-0.5 rounded font-semibold">
+                    <div class="bg-white p-3 rounded-xl border border-gray-100 flex justify-between items-center hover:border-emerald-200 transition">
+                        <div class="flex-1 min-w-0 mr-2">
+                            <p class="font-bold text-gray-800 text-xs truncate">${item.keterangan || 'Transaksi'}</p>
+                            <span class="text-[10px] ${item.tipe === 'masuk' ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'} px-2 py-0.5 rounded font-semibold inline-block mt-0.5">
                                 ${item.tipe === 'masuk' ? 'Pemasukan (+)' : 'Pengeluaran (-)'}
                             </span>
                         </div>
-                        <span class="font-bold ${item.tipe === 'masuk' ? 'text-emerald-600' : 'text-rose-600'}">
-                            ${item.tipe === 'masuk' ? '+' : '-'} Rp ${nominal.toLocaleString('id-ID')}
-                        </span>
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            <span class="font-bold text-xs ${item.tipe === 'masuk' ? 'text-emerald-600' : 'text-rose-600'}">
+                                ${item.tipe === 'masuk' ? '+' : '-'} Rp ${nominal.toLocaleString('id-ID')}
+                            </span>
+                            <button onclick="hapusKas('${docId}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 transition text-[10px] font-bold" title="Hapus Transaksi">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
                     </div>
                     `;
                 });
@@ -639,7 +649,20 @@
             loadArtikelRealtime();
         }
 
-        // 1. DOKUMEN REALTIME
+        function hapusKas(docId) {
+            const pin = prompt("Masukkan PIN Admin untuk menghapus transaksi ini:");
+            if (pin !== PIN_ADMIN) return alert("PIN Salah! Akses ditolak.");
+
+            if (confirm("Apakah Anda yakin ingin menghapus catatan transaksi ini? Total kas akan otomatis disesuaikan kembali.")) {
+                db.collection('kas').doc(docId).delete().then(() => {
+                    alert("Transaksi kas berhasil dihapus!");
+                }).catch(err => {
+                    alert("Gagal menghapus transaksi: " + err.message);
+                });
+            }
+        }
+
+        // DOKUMEN REALTIME
         function loadDokumenRealtime() {
             db.collection('dokumen').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
                 let docHtml = '';
@@ -674,7 +697,7 @@
             }
         }
 
-        // 2. AGENDA REALTIME + POPUP DETAIL HISTORIS KITAB
+        // AGENDA REALTIME + MODAL POPUP + EDIT DESKRIPSI
         let dataAgenda = [];
         function loadAgendaRealtime() {
             db.collection('agenda').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
@@ -698,20 +721,25 @@
                     agendaHtml += `
                     <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center relative hover:border-emerald-200 transition">
                         ${fotoHtml}
-                        <div class="flex-1 min-w-0 cursor-pointer" onclick="bukaModalKajian('${docId}')">
+                        <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-start">
                                 <span class="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">
                                     ${item.tanggal || ''} | ${item.waktu || ''}
                                 </span>
-                                <button onclick="event.stopPropagation(); hapusAgenda('${docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded bg-rose-50 hover:bg-rose-100 transition text-[10px] font-bold flex items-center gap-1" title="Hapus Kajian">
-                                    <i class="fa-solid fa-trash-can"></i> Hapus
-                                </button>
+                                <div class="flex items-center gap-1">
+                                    <button onclick="editDeskripsiAgenda('${docId}')" class="text-emerald-600 hover:text-emerald-800 p-1 rounded bg-emerald-50 hover:bg-emerald-100 transition text-[10px] font-bold flex items-center gap-1" title="Tambah/Edit Deskripsi">
+                                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                                    </button>
+                                    <button onclick="hapusAgenda('${docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded bg-rose-50 hover:bg-rose-100 transition text-[10px] font-bold flex items-center gap-1" title="Hapus Kajian">
+                                        <i class="fa-solid fa-trash-can"></i> Hapus
+                                    </button>
+                                </div>
                             </div>
-                            <h4 class="font-bold text-gray-800 text-xs mt-1 truncate">${item.judul || ''}</h4>
+                            <h4 class="font-bold text-gray-800 text-xs mt-1 truncate cursor-pointer" onclick="bukaModalKajian('${docId}')">${item.judul || ''}</h4>
                             <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
                                 <i class="fa-solid fa-user-tie text-emerald-600"></i> ${item.penceramah || ''}
                             </p>
-                            <p class="text-[10px] text-emerald-700 mt-1 font-medium flex items-center gap-1">
+                            <p class="text-[10px] text-emerald-700 mt-1 font-medium cursor-pointer" onclick="bukaModalKajian('${docId}')">
                                 <i class="fa-solid fa-circle-info"></i> Ketuk untuk detail & historis kitab
                             </p>
                         </div>
@@ -720,6 +748,22 @@
                 });
                 document.getElementById('daftar-agenda-container').innerHTML = agendaHtml || '<p class="text-xs text-gray-400 italic">Belum ada jadwal kajian.</p>';
             });
+        }
+
+        async function editDeskripsiAgenda(docId) {
+            const pin = prompt("Masukkan PIN Admin:");
+            if (pin !== PIN_ADMIN) return alert("PIN Salah!");
+
+            const kajian = dataAgenda.find(k => k.id === docId);
+            if (!kajian) return;
+
+            const deskripsiLama = kajian.deskripsi || '';
+            const deskripsiBaru = prompt("Tambahkan atau ubah deskripsi/historis kitab di bawah ini:", deskripsiLama);
+
+            if (deskripsiBaru !== null) {
+                await db.collection('agenda').doc(docId).update({ deskripsi: deskripsiBaru });
+                alert("Deskripsi kajian & historis kitab berhasil diperbarui!");
+            }
         }
 
         function bukaModalKajian(id) {
@@ -756,7 +800,7 @@
             document.getElementById('kas-pengeluaran-val').innerText = `- Rp ${keluar.toLocaleString('id-ID')}`;
         }
 
-        // 3. ARTIKEL REALTIME
+        // ARTIKEL REALTIME
         let dataArtikel = [];
         function loadArtikelRealtime() {
             db.collection('artikel').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
@@ -822,7 +866,7 @@
             document.getElementById('modal-baca-artikel').classList.add('hidden');
         }
 
-        // FUNGSI SIMPAN PANEL ADMIN (TERPISAH KAS AWAL, PEMASUKAN, PENGELUARAN)
+        // SIMPAN PANEL ADMIN
         async function simpanSettingKas() {
             const kasAwal = document.getElementById('input-kas-awal').value;
             const saldoBendahara = document.getElementById('input-saldo-bendahara').value;
