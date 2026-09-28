@@ -20,8 +20,9 @@
     </style>
 </head>
 <body class="flex justify-center min-h-screen bg-fixed bg-cover bg-center relative" style="background-image: url('masjid.jpg'), url('https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=1200');">
-    <!-- Overlay Gelap Tipis Tanpa Blur Agar Background Masjid Jelas -->
-    <div class="fixed inset-0 bg-black/30 z-0 pointer-events-none"></div>
+
+    <!-- Overlay Gelap Tipis Tanpa Blur -->
+    <div class="fixed inset-0 bg-black/35 z-0 pointer-events-none"></div>
 
     <!-- Container Utama Aplikasi Mobile -->
     <div class="w-full max-w-md bg-slate-50 min-h-screen pb-24 shadow-2xl relative z-10 flex flex-col justify-between">
@@ -76,6 +77,20 @@
                                 <i class="fa-solid fa-volume-xmark" id="icon-suara"></i> <span id="text-suara">Aktifkan Suara</span>
                             </button>
                         </div>
+                    </div>
+
+                    <!-- WIDGET KALENDER MASEHI & HIJRIAH REALTIME -->
+                    <div class="bg-white p-3.5 rounded-2xl border border-emerald-100 shadow-xs flex justify-between items-center text-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-emerald-100 text-emerald-800 rounded-xl flex items-center justify-center font-bold text-base flex-shrink-0">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <p id="tgl-masehi" class="font-bold text-gray-800 text-xs">Memuat Masehi...</p>
+                                <p id="tgl-hijriah" class="text-[11px] text-emerald-700 font-semibold mt-0.5">Memuat Hijriah...</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] bg-emerald-50 text-emerald-700 px-2 py-1 rounded-lg font-bold uppercase border border-emerald-200">Hari Ini</span>
                     </div>
 
                     <!-- Jadwal Shalat Hari Ini -->
@@ -135,7 +150,10 @@
 
                 <!-- 2. TAB KAJIAN -->
                 <div id="tab-kajian" class="tab-content space-y-4">
-                    <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase">Jadwal Agenda & Kajian DKM</h3>
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase">Jadwal Agenda & Kajian DKM</h3>
+                        <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-semibold">*Ketuk kajian/kitab untuk info lengkap</span>
+                    </div>
                     <div id="daftar-agenda-container" class="space-y-3">
                         <p class="text-xs text-gray-400 italic">Memuat agenda kajian...</p>
                     </div>
@@ -241,24 +259,44 @@
                         <button onclick="switchTab('beranda')" class="text-amber-800 underline font-bold">Keluar</button>
                     </div>
 
-                    <!-- FORM SETTING LAPORAN KEUANGAN UTAMA -->
+                    <!-- FORM 1: SETTING KAS AWAL & SALDO BENDAHARA (DIPISAH) -->
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-                        <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-coins text-emerald-600 mr-1"></i> Setting Kas Awal & Keterangan</h4>
-                        <input type="number" id="input-kas-awal" placeholder="Kas Awal (Rp)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                        <textarea id="input-kas-keterangan" rows="2" placeholder="Catatan Keterangan Keuangan..." class="w-full p-2 border rounded-xl text-xs bg-gray-50"></textarea>
-                        <button onclick="simpanSettingKas()" class="w-full bg-emerald-800 text-white font-bold py-2 rounded-xl text-xs">Simpan Ringkasan Kas</button>
+                        <h4 class="font-bold text-xs text-emerald-900 uppercase flex items-center gap-1.5">
+                            <i class="fa-solid fa-vault text-emerald-600"></i> 1. Form Kas Awal & Saldo Bendahara
+                        </h4>
+                        <div>
+                            <label class="text-[10px] text-gray-500 font-semibold block mb-1">Kas Awal Masjid (Rp):</label>
+                            <input type="number" id="input-kas-awal" placeholder="Contoh: 5000000" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-gray-500 font-semibold block mb-1">Saldo Pegangan Bendahara (Rp):</label>
+                            <input type="number" id="input-saldo-bendahara" placeholder="Contoh: 1500000" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-gray-500 font-semibold block mb-1">Catatan Keterangan Keuangan:</label>
+                            <textarea id="input-kas-keterangan" rows="2" placeholder="Catatan Keterangan Keuangan (Misal: Saldo kas aman)..." class="w-full p-2 border rounded-xl text-xs bg-gray-50"></textarea>
+                        </div>
+                        <button onclick="simpanSettingKas()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-2 rounded-xl text-xs transition">Simpan Setting Kas</button>
                     </div>
 
-                    <!-- FORM TAMBAH TRANSAKSI KAS -->
-                    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-                        <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-plus text-emerald-600 mr-1"></i> Tambah Transaksi Kas</h4>
-                        <input type="text" id="kas-keterangan" placeholder="Keterangan (Contoh: Infaq Jumat)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                        <input type="number" id="kas-nominal" placeholder="Nominal (Rp)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                        <select id="kas-tipe" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                            <option value="masuk">Pemasukan (Masuk)</option>
-                            <option value="keluar">Pengeluaran (Keluar)</option>
-                        </select>
-                        <button onclick="simpanKas()" class="w-full bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">Simpan Transaksi</button>
+                    <!-- FORM 2: TAMBAH PEMASUKAN KAS (DIPISAH) -->
+                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-3">
+                        <h4 class="font-bold text-xs text-emerald-700 uppercase flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-plus text-emerald-600"></i> 2. Form Pemasukan Kas (+)
+                        </h4>
+                        <input type="text" id="pemasukan-keterangan" placeholder="Keterangan Pemasukan (Contoh: Infaq Salat Jumat)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <input type="number" id="pemasukan-nominal" placeholder="Nominal Pemasukan (Rp)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <button onclick="simpanPemasukan()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs transition">+ Simpan Pemasukan</button>
+                    </div>
+
+                    <!-- FORM 3: TAMBAH PENGELUARAN KAS (DIPISAH) -->
+                    <div class="bg-white p-4 rounded-2xl border border-rose-100 shadow-sm space-y-3">
+                        <h4 class="font-bold text-xs text-rose-700 uppercase flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-minus text-rose-600"></i> 3. Form Pengeluaran Kas (-)
+                        </h4>
+                        <input type="text" id="pengeluaran-keterangan" placeholder="Keterangan Pengeluaran (Contoh: Pembelian Karpet / Listrik)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <input type="number" id="pengeluaran-nominal" placeholder="Nominal Pengeluaran (Rp)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <button onclick="simpanPengeluaran()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2 rounded-xl text-xs transition">- Simpan Pengeluaran</button>
                     </div>
 
                     <!-- FORM UPLOAD DOKUMEN / LPJ -->
@@ -277,15 +315,16 @@
                         <button onclick="simpanPengumuman()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 rounded-xl text-xs transition">Update Pengumuman</button>
                     </div>
 
-                    <!-- FORM TAMBAH KAJIAN -->
+                    <!-- FORM TAMBAH KAJIAN & HISTORIS KITAB -->
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-                        <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-plus text-emerald-600 mr-1"></i> Tambah Agenda / Kajian</h4>
-                        <input type="text" id="agenda-judul" placeholder="Judul Kajian (Contoh: Fiqih Kitab Bajuri)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-plus text-emerald-600 mr-1"></i> Tambah Agenda & Historis Kitab</h4>
+                        <input type="text" id="agenda-judul" placeholder="Judul Kajian (Contoh: Kajian Fiqih Kitab Bajuri)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
                         <input type="text" id="agenda-penceramah" placeholder="Penceramah / Ustadz" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
                         <input type="date" id="agenda-tanggal" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
                         <input type="text" id="agenda-waktu" placeholder="Waktu (Contoh: Ba'da Maghrib)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
                         <input type="text" id="agenda-foto" placeholder="Nama File / Link Foto Sampul Kitab (Contoh: bajuri.jpg)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                        <button onclick="simpanAgenda()" class="w-full bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">Simpan Kajian</button>
+                        <textarea id="agenda-deskripsi" rows="3" placeholder="Deskripsi Kajian & Latar Belakang Historis Kitab..." class="w-full p-2 border rounded-xl text-xs bg-gray-50"></textarea>
+                        <button onclick="simpanAgenda()" class="w-full bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">Simpan Kajian & Kitab</button>
                     </div>
 
                     <!-- FORM TERBITKAN ARTIKEL -->
@@ -326,7 +365,7 @@
 
     </div>
 
-    <!-- POPUP MODAL UNTUK MEMBACA ARTIKEL -->
+    <!-- POPUP MODAL BACA ARTIKEL -->
     <div id="modal-baca-artikel" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs">
         <div class="bg-white rounded-3xl max-w-md w-full max-h-[85vh] overflow-y-auto p-5 space-y-4 border border-emerald-100 shadow-2xl relative">
             <button onclick="tutupModalArtikel()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">
@@ -340,6 +379,33 @@
                 <h2 id="detail-artikel-judul" class="text-base font-bold text-gray-900 mt-2 leading-snug"></h2>
             </div>
             <div id="detail-artikel-isi" class="text-xs text-gray-600 leading-relaxed space-y-2 border-t pt-3 whitespace-pre-line"></div>
+        </div>
+    </div>
+
+    <!-- POPUP MODAL DETAIL KAJIAN & HISTORIS KITAB -->
+    <div id="modal-detail-kajian" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs">
+        <div class="bg-white rounded-3xl max-w-md w-full max-h-[85vh] overflow-y-auto p-5 space-y-4 border border-emerald-100 shadow-2xl relative">
+            <button onclick="tutupModalKajian()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="flex gap-4 items-center border-b pb-3">
+                <img id="detail-kajian-foto" src="" alt="Sampul Kitab" class="w-20 h-28 object-cover rounded-xl border border-emerald-200 shadow-xs flex-shrink-0">
+                <div>
+                    <span id="detail-kajian-waktu" class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md"></span>
+                    <h2 id="detail-kajian-judul" class="text-sm font-bold text-gray-900 mt-1 leading-snug"></h2>
+                    <p id="detail-kajian-penceramah" class="text-xs text-emerald-700 font-semibold mt-1 flex items-center gap-1">
+                        <i class="fa-solid fa-user-tie"></i> <span></span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="text-xs font-bold text-gray-800 uppercase tracking-wide flex items-center gap-1.5">
+                    <i class="fa-solid fa-book-open-reader text-emerald-600"></i> Deskripsi Kajian & Historis Kitab
+                </h4>
+                <div id="detail-kajian-deskripsi" class="text-xs text-gray-600 leading-relaxed bg-slate-50 p-3 rounded-xl border whitespace-pre-line"></div>
+            </div>
         </div>
     </div>
 
@@ -384,6 +450,24 @@
                 navBtn.classList.remove('text-gray-400');
                 navBtn.classList.add('text-emerald-700');
             }
+        }
+
+        // KALENDER MASEHI & HIJRIAH REALTIME
+        function updateKalender() {
+            const now = new Date();
+            const opsiMasehi = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const tglMasehiStr = now.toLocaleDateString('id-ID', opsiMasehi);
+            
+            let tglHijriahStr = '';
+            try {
+                const opsiHijriah = { day: 'numeric', month: 'long', year: 'numeric' };
+                tglHijriahStr = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura', opsiHijriah).format(now) + ' H';
+            } catch (e) {
+                tglHijriahStr = '1447 H';
+            }
+
+            document.getElementById('tgl-masehi').innerText = tglMasehiStr;
+            document.getElementById('tgl-hijriah').innerText = tglHijriahStr;
         }
 
         // AZAN & SUARA PENGINGAT
@@ -480,8 +564,11 @@
 
         // REALTIME FIRESTORE DATA
         let kasAwalNominal = 0;
+        let saldoBendaharaNominal = 0;
 
         function loadRealtimeData() {
+            updateKalender();
+
             // Pengumuman
             db.collection('pengumuman').doc('infoUtama').onSnapshot(doc => {
                 if (doc.exists) {
@@ -499,12 +586,15 @@
                 }
             });
 
-            // Keuangan Kas Awal & Keterangan
+            // Keuangan Kas Awal & Saldo Bendahara
             db.collection('pengaturan').doc('keuangan').onSnapshot(doc => {
                 if(doc.exists) {
                     const d = doc.data();
                     kasAwalNominal = Number(d.kasAwal) || 0;
+                    saldoBendaharaNominal = Number(d.saldoBendahara) || 0;
+
                     document.getElementById('kas-awal-val').innerText = `Rp ${kasAwalNominal.toLocaleString('id-ID')}`;
+                    document.getElementById('kas-saldo-val').innerText = `Rp ${saldoBendaharaNominal.toLocaleString('id-ID')}`;
                     document.getElementById('kas-keterangan-val').innerText = d.keterangan || 'Tidak ada catatan keterangan.';
                 }
                 hitungKasTotal();
@@ -526,7 +616,9 @@
                     <div class="bg-white p-3 rounded-xl border border-gray-100 flex justify-between items-center">
                         <div>
                             <p class="font-bold text-gray-800">${item.keterangan || 'Transaksi'}</p>
-                            <span class="text-[10px] text-gray-400">${item.tipe === 'masuk' ? 'Pemasukan' : 'Pengeluaran'}</span>
+                            <span class="text-[10px] ${item.tipe === 'masuk' ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'} px-2 py-0.5 rounded font-semibold">
+                                ${item.tipe === 'masuk' ? 'Pemasukan (+)' : 'Pengeluaran (-)'}
+                            </span>
                         </div>
                         <span class="font-bold ${item.tipe === 'masuk' ? 'text-emerald-600' : 'text-rose-600'}">
                             ${item.tipe === 'masuk' ? '+' : '-'} Rp ${nominal.toLocaleString('id-ID')}
@@ -542,13 +634,12 @@
                 hitungKasTotal();
             });
 
-            // Dokumen Realtime
             loadDokumenRealtime();
             loadAgendaRealtime();
             loadArtikelRealtime();
         }
 
-        // 1. DOKUMEN REALTIME + FITUR HAPUS PIN
+        // 1. DOKUMEN REALTIME
         function loadDokumenRealtime() {
             db.collection('dokumen').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
                 let docHtml = '';
@@ -583,32 +674,36 @@
             }
         }
 
-        // 2. AGENDA REALTIME + FITUR HAPUS PIN
+        // 2. AGENDA REALTIME + POPUP DETAIL HISTORIS KITAB
+        let dataAgenda = [];
         function loadAgendaRealtime() {
             db.collection('agenda').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
                 let agendaHtml = '';
+                dataAgenda = [];
+
                 snapshot.docs.forEach(doc => {
                     const item = doc.data();
                     const docId = doc.id;
+                    dataAgenda.push({ id: docId, ...item });
 
                     let fotoHtml = '';
                     if (item.fotoUrl && item.fotoUrl.trim() !== '') {
-                        fotoHtml = `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border border-emerald-100 flex-shrink-0 shadow-xs" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200';">`;
+                        fotoHtml = `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border border-emerald-100 flex-shrink-0 shadow-xs cursor-pointer" onclick="bukaModalKajian('${docId}')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200';">`;
                     } else {
-                        fotoHtml = `<div class="w-16 h-20 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center flex-shrink-0 border border-emerald-200">
+                        fotoHtml = `<div class="w-16 h-20 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center flex-shrink-0 border border-emerald-200 cursor-pointer" onclick="bukaModalKajian('${docId}')">
                                         <i class="fa-solid fa-book-quran text-2xl"></i>
                                     </div>`;
                     }
 
                     agendaHtml += `
-                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center relative">
+                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center relative hover:border-emerald-200 transition">
                         ${fotoHtml}
-                        <div class="flex-1 min-w-0">
+                        <div class="flex-1 min-w-0 cursor-pointer" onclick="bukaModalKajian('${docId}')">
                             <div class="flex justify-between items-start">
                                 <span class="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">
                                     ${item.tanggal || ''} | ${item.waktu || ''}
                                 </span>
-                                <button onclick="hapusAgenda('${docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded bg-rose-50 hover:bg-rose-100 transition text-[10px] font-bold flex items-center gap-1" title="Hapus Kajian">
+                                <button onclick="event.stopPropagation(); hapusAgenda('${docId}')" class="text-rose-500 hover:text-rose-700 p-1 rounded bg-rose-50 hover:bg-rose-100 transition text-[10px] font-bold flex items-center gap-1" title="Hapus Kajian">
                                     <i class="fa-solid fa-trash-can"></i> Hapus
                                 </button>
                             </div>
@@ -616,12 +711,32 @@
                             <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
                                 <i class="fa-solid fa-user-tie text-emerald-600"></i> ${item.penceramah || ''}
                             </p>
+                            <p class="text-[10px] text-emerald-700 mt-1 font-medium flex items-center gap-1">
+                                <i class="fa-solid fa-circle-info"></i> Ketuk untuk detail & historis kitab
+                            </p>
                         </div>
                     </div>
                     `;
                 });
                 document.getElementById('daftar-agenda-container').innerHTML = agendaHtml || '<p class="text-xs text-gray-400 italic">Belum ada jadwal kajian.</p>';
             });
+        }
+
+        function bukaModalKajian(id) {
+            const kajian = dataAgenda.find(k => k.id === id);
+            if (!kajian) return;
+
+            document.getElementById('detail-kajian-foto').src = kajian.fotoUrl || 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200';
+            document.getElementById('detail-kajian-judul').innerText = kajian.judul || 'Detail Kajian';
+            document.getElementById('detail-kajian-waktu').innerText = `${kajian.tanggal || ''} | ${kajian.waktu || ''}`;
+            document.getElementById('detail-kajian-penceramah').querySelector('span').innerText = kajian.penceramah || 'Ustadz / Penceramah';
+            document.getElementById('detail-kajian-deskripsi').innerText = kajian.deskripsi || 'Belum ada penjelasan deskripsi atau historis kitab untuk kajian ini.';
+
+            document.getElementById('modal-detail-kajian').classList.remove('hidden');
+        }
+
+        function tutupModalKajian() {
+            document.getElementById('modal-detail-kajian').classList.add('hidden');
         }
 
         function hapusAgenda(docId) {
@@ -636,14 +751,12 @@
         function hitungKasTotal() {
             const masuk = window.totalMasukCache || 0;
             const keluar = window.totalKeluarCache || 0;
-            const saldoAkhir = kasAwalNominal + masuk - keluar;
 
             document.getElementById('kas-pemasukan-val').innerText = `+ Rp ${masuk.toLocaleString('id-ID')}`;
             document.getElementById('kas-pengeluaran-val').innerText = `- Rp ${keluar.toLocaleString('id-ID')}`;
-            document.getElementById('kas-saldo-val').innerText = `Rp ${saldoAkhir.toLocaleString('id-ID')}`;
         }
 
-        // 3. ARTIKEL REALTIME + FITUR HAPUS PIN
+        // 3. ARTIKEL REALTIME
         let dataArtikel = [];
         function loadArtikelRealtime() {
             db.collection('artikel').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
@@ -709,29 +822,56 @@
             document.getElementById('modal-baca-artikel').classList.add('hidden');
         }
 
-        // FUNGSI SIMPAN DI PANEL ADMIN
+        // FUNGSI SIMPAN PANEL ADMIN (TERPISAH KAS AWAL, PEMASUKAN, PENGELUARAN)
         async function simpanSettingKas() {
             const kasAwal = document.getElementById('input-kas-awal').value;
+            const saldoBendahara = document.getElementById('input-saldo-bendahara').value;
             const ket = document.getElementById('input-kas-keterangan').value;
 
             await db.collection('pengaturan').doc('keuangan').set({
                 kasAwal: Number(kasAwal) || 0,
+                saldoBendahara: Number(saldoBendahara) || 0,
                 keterangan: ket
             });
-            alert('Ringkasan keuangan berhasil diperbarui!');
+            alert('Setting Kas Awal & Saldo Bendahara berhasil disimpan!');
             switchTab('kas');
         }
 
-        async function simpanKas() {
-            const ket = document.getElementById('kas-keterangan').value;
-            const nom = document.getElementById('kas-nominal').value;
-            const tipe = document.getElementById('kas-tipe').value;
-            if(!ket || !nom) return alert('Isi data kas dengan lengkap');
+        async function simpanPemasukan() {
+            const ket = document.getElementById('pemasukan-keterangan').value.trim();
+            const nom = document.getElementById('pemasukan-nominal').value;
+
+            if(!ket || !nom) return alert('Isi keterangan dan nominal pemasukan!');
 
             await db.collection('kas').add({
-                keterangan: ket, nominal: Number(nom), tipe: tipe, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                keterangan: ket,
+                nominal: Number(nom),
+                tipe: 'masuk',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            alert('Transaksi Kas tersimpan!');
+
+            document.getElementById('pemasukan-keterangan').value = '';
+            document.getElementById('pemasukan-nominal').value = '';
+            alert('Pemasukan Kas Berhasil Ditambahkan!');
+            switchTab('kas');
+        }
+
+        async function simpanPengeluaran() {
+            const ket = document.getElementById('pengeluaran-keterangan').value.trim();
+            const nom = document.getElementById('pengeluaran-nominal').value;
+
+            if(!ket || !nom) return alert('Isi keterangan dan nominal pengeluaran!');
+
+            await db.collection('kas').add({
+                keterangan: ket,
+                nominal: Number(nom),
+                tipe: 'keluar',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            document.getElementById('pengeluaran-keterangan').value = '';
+            document.getElementById('pengeluaran-nominal').value = '';
+            alert('Pengeluaran Kas Berhasil Ditambahkan!');
             switchTab('kas');
         }
 
@@ -753,13 +893,14 @@
             const tanggal = document.getElementById('agenda-tanggal').value;
             const waktu = document.getElementById('agenda-waktu').value;
             const fotoUrl = document.getElementById('agenda-foto').value;
+            const deskripsi = document.getElementById('agenda-deskripsi').value;
 
             if(!judul) return alert('Isi judul kajian');
 
             await db.collection('agenda').add({
-                judul, penceramah, tanggal, waktu, fotoUrl, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                judul, penceramah, tanggal, waktu, fotoUrl, deskripsi, createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-            alert('Jadwal Kajian tersimpan!');
+            alert('Jadwal Kajian & Historis Kitab tersimpan!');
             switchTab('kajian');
         }
 
