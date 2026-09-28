@@ -86,7 +86,7 @@
                         </div>
                     </div>
 
-                    <!-- Layout Fitur Layanan Cepat (Termasuk Dokumen LPJ) -->
+                    <!-- Layout Fitur Layanan Cepat -->
                     <div>
                         <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase mb-2">Layanan Cepat</h3>
                         <div class="grid grid-cols-4 gap-2 text-center text-[11px]">
@@ -134,66 +134,12 @@
                 </div>
 
                 <!-- 2. TAB KAJIAN -->
-                // Agenda / Kajian Realtime (Lengkap dengan Foto Kitab + Tombol Hapus Admin)
-db.collection('agenda').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-    let agendaHtml = '';
-    snapshot.docs.forEach(doc => {
-        const item = doc.data();
-        const docId = doc.id; // ID unik dokumen di Firebase
-
-        let fotoHtml = '';
-        if (item.fotoUrl && item.fotoUrl.trim() !== '') {
-            fotoHtml = `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border border-emerald-100 flex-shrink-0 shadow-xs" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200';">`;
-        } else {
-            fotoHtml = `<div class="w-16 h-20 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center flex-shrink-0 border border-emerald-200">
-                            <i class="fa-solid fa-book-quran text-2xl"></i>
-                        </div>`;
-        }
-
-        // Cek apakah mode admin sedang aktif untuk menampilkan tombol hapus
-        const isTabAdminActive = document.getElementById('tab-admin').classList.contains('active');
-        let tombolHapusHtml = '';
-        if (isTabAdminActive) {
-            tombolHapusHtml = `
-            <button onclick="hapusAgenda('${docId}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 transition" title="Hapus Kajian">
-                <i class="fa-solid fa-trash-can text-xs"></i>
-            </button>
-            `;
-        }
-
-        agendaHtml += `
-        <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center relative">
-            ${fotoHtml}
-            <div class="flex-1 min-w-0">
-                <div class="flex justify-between items-start">
-                    <span class="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">
-                        ${item.tanggal || ''} | ${item.waktu || ''}
-                    </span>
-                    ${tombolHapusHtml}
+                <div id="tab-kajian" class="tab-content space-y-4">
+                    <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase">Jadwal Agenda & Kajian DKM</h3>
+                    <div id="daftar-agenda-container" class="space-y-3">
+                        <p class="text-xs text-gray-400 italic">Memuat agenda kajian...</p>
+                    </div>
                 </div>
-                <h4 class="font-bold text-gray-800 text-xs mt-1 truncate">${item.judul || ''}</h4>
-                <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
-                    <i class="fa-solid fa-user-tie text-emerald-600"></i> ${item.penceramah || ''}
-                </p>
-            </div>
-        </div>
-        `;
-    });
-    document.getElementById('daftar-agenda-container').innerHTML = agendaHtml || '<p class="text-xs text-gray-400 italic">Belum ada jadwal kajian.</p>';
-});
-
-// Fungsi Hapus Agenda / Kajian dari Firebase
-async function hapusAgenda(docId) {
-    if (confirm("Apakah Anda yakin ingin menghapus kajian ini?")) {
-        try {
-            await db.collection('agenda').doc(docId).delete();
-            alert("Kajian berhasil dihapus!");
-        } catch (error) {
-            console.error("Gagal menghapus kajian:", error);
-            alert("Gagal menghapus kajian.");
-        }
-    }
-}
 
                 <!-- 3. TAB INFAQ (QRIS) -->
                 <div id="tab-infaq" class="tab-content space-y-4 text-center">
@@ -214,15 +160,12 @@ async function hapusAgenda(docId) {
 
                 <!-- 4. TAB LAPORAN KEUANGAN & KAS MASJID LENGKAP -->
                 <div id="tab-kas" class="tab-content space-y-4">
-                    
-                    <!-- Kartu Ringkasan Laporan Keuangan -->
                     <div class="bg-emerald-900 text-white p-5 rounded-2xl shadow-md space-y-3">
                         <div class="flex justify-between items-center border-b border-emerald-800 pb-2">
                             <h3 class="font-bold text-xs uppercase tracking-wider text-emerald-200"><i class="fa-solid fa-chart-pie mr-1"></i> Ringkasan Keuangan Kas</h3>
                             <span class="text-[10px] bg-emerald-800 px-2 py-0.5 rounded text-emerald-300">Terupdate</span>
                         </div>
 
-                        <!-- Grid Kas Awal, Pemasukan, Pengeluaran, Saldo -->
                         <div class="grid grid-cols-2 gap-2 text-xs">
                             <div class="bg-emerald-950/50 p-2.5 rounded-xl border border-emerald-800/60">
                                 <span class="text-[10px] text-emerald-300 block">Kas Awal</span>
@@ -242,14 +185,12 @@ async function hapusAgenda(docId) {
                             </div>
                         </div>
 
-                        <!-- Catatan / Keterangan Keuangan -->
                         <div class="bg-emerald-950/80 p-2.5 rounded-xl border border-emerald-800/60 text-[11px] space-y-1">
                             <span class="font-bold text-emerald-300 block"><i class="fa-solid fa-circle-info mr-1"></i> Keterangan Keuangan:</span>
                             <p id="kas-keterangan-val" class="text-emerald-100 leading-relaxed italic">Memuat keterangan keuangan...</p>
                         </div>
                     </div>
 
-                    <!-- Riwayat Transaksi Kas -->
                     <div>
                         <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase mb-2">Riwayat Transaksi Masuk / Keluar</h3>
                         <div id="daftar-kas-container" class="space-y-2 text-xs">
@@ -304,7 +245,7 @@ async function hapusAgenda(docId) {
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
                         <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-coins text-emerald-600 mr-1"></i> Setting Kas Awal & Keterangan</h4>
                         <input type="number" id="input-kas-awal" placeholder="Kas Awal (Rp)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                        <textarea id="input-kas-keterangan" rows="2" placeholder="Catatan Keterangan Keuangan (Contoh: Saldo dipegang Bendahara H. Ahmad)..." class="w-full p-2 border rounded-xl text-xs bg-gray-50"></textarea>
+                        <textarea id="input-kas-keterangan" rows="2" placeholder="Catatan Keterangan Keuangan..." class="w-full p-2 border rounded-xl text-xs bg-gray-50"></textarea>
                         <button onclick="simpanSettingKas()" class="w-full bg-emerald-800 text-white font-bold py-2 rounded-xl text-xs">Simpan Ringkasan Kas</button>
                     </div>
 
@@ -323,8 +264,8 @@ async function hapusAgenda(docId) {
                     <!-- FORM UPLOAD DOKUMEN / LPJ -->
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
                         <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-file-circle-plus text-rose-600 mr-1"></i> Tambah Dokumen / LPJ</h4>
-                        <input type="text" id="doc-judul" placeholder="Nama Dokumen (Contoh: LPJ Idul Adha 2026)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                        <input type="url" id="doc-link" placeholder="Link Berkas PDF / Google Drive / Cloud" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <input type="text" id="doc-judul" placeholder="Nama Dokumen (Contoh: LPJ Idul Adha)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <input type="url" id="doc-link" placeholder="Link Berkas PDF / Google Drive" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
                         <button onclick="simpanDokumen()" class="w-full bg-rose-700 text-white font-bold py-2 rounded-xl text-xs">Simpan Dokumen</button>
                     </div>
 
@@ -343,7 +284,7 @@ async function hapusAgenda(docId) {
                         <input type="text" id="agenda-penceramah" placeholder="Penceramah / Ustadz" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
                         <input type="date" id="agenda-tanggal" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
                         <input type="text" id="agenda-waktu" placeholder="Waktu (Contoh: Ba'da Maghrib)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                        <input type="url" id="agenda-foto" placeholder="Link Foto Sampul Kitab/Pamflet (Opsional)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <input type="text" id="agenda-foto" placeholder="Nama File / Link Foto Sampul Kitab (Contoh: bajuri.jpg)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
                         <button onclick="simpanAgenda()" class="w-full bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">Simpan Kajian</button>
                     </div>
 
@@ -443,6 +384,9 @@ async function hapusAgenda(docId) {
                 navBtn.classList.remove('text-gray-400');
                 navBtn.classList.add('text-emerald-700');
             }
+
+            // Muat ulang daftar kajian agar tombol hapus muncul jika di tab admin
+            if (typeof loadAgendaRealtime === 'function') loadAgendaRealtime();
         }
 
         // AZAN & SUARA
@@ -558,7 +502,7 @@ async function hapusAgenda(docId) {
                 }
             });
 
-            // Ringkasan Keuangan Utama (Kas Awal & Keterangan)
+            // Keuangan Kas Awal & Keterangan
             db.collection('pengaturan').doc('keuangan').onSnapshot(doc => {
                 if(doc.exists) {
                     const d = doc.data();
@@ -622,22 +566,47 @@ async function hapusAgenda(docId) {
                 document.getElementById('daftar-dokumen-container').innerHTML = docHtml || '<p class="text-xs text-gray-400 italic">Belum ada dokumen LPJ yang diunggah.</p>';
             });
 
-            // Agenda Realtime
+            loadAgendaRealtime();
+            loadArtikelRealtime();
+        }
+
+        // AGENDA REALTIME DENGAN TOMBOL HAPUS ADMIN
+        function loadAgendaRealtime() {
             db.collection('agenda').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
                 let agendaHtml = '';
                 snapshot.docs.forEach(doc => {
                     const item = doc.data();
-                    let fotoHtml = item.fotoUrl 
-                        ? `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border flex-shrink-0">`
-                        : `<div class="w-16 h-20 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-book-quran text-2xl"></i></div>`;
+                    const docId = doc.id;
+
+                    let fotoHtml = '';
+                    if (item.fotoUrl && item.fotoUrl.trim() !== '') {
+                        fotoHtml = `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border border-emerald-100 flex-shrink-0 shadow-xs" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200';">`;
+                    } else {
+                        fotoHtml = `<div class="w-16 h-20 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center flex-shrink-0 border border-emerald-200">
+                                        <i class="fa-solid fa-book-quran text-2xl"></i>
+                                    </div>`;
+                    }
+
+                    const isTabAdminActive = document.getElementById('tab-admin').classList.contains('active');
+                    let tombolHapusHtml = '';
+                    if (isTabAdminActive) {
+                        tombolHapusHtml = `
+                        <button onclick="hapusAgenda('${docId}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 transition" title="Hapus Kajian">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                        `;
+                    }
 
                     agendaHtml += `
-                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center">
+                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center relative">
                         ${fotoHtml}
                         <div class="flex-1 min-w-0">
-                            <span class="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">
-                                ${item.tanggal || ''} | ${item.waktu || ''}
-                            </span>
+                            <div class="flex justify-between items-start">
+                                <span class="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">
+                                    ${item.tanggal || ''} | ${item.waktu || ''}
+                                </span>
+                                ${tombolHapusHtml}
+                            </div>
                             <h4 class="font-bold text-gray-800 text-xs mt-1 truncate">${item.judul || ''}</h4>
                             <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
                                 <i class="fa-solid fa-user-tie text-emerald-600"></i> ${item.penceramah || ''}
@@ -648,8 +617,18 @@ async function hapusAgenda(docId) {
                 });
                 document.getElementById('daftar-agenda-container').innerHTML = agendaHtml || '<p class="text-xs text-gray-400 italic">Belum ada jadwal kajian.</p>';
             });
+        }
 
-            loadArtikelRealtime();
+        async function hapusAgenda(docId) {
+            if (confirm("Apakah Anda yakin ingin menghapus kajian ini?")) {
+                try {
+                    await db.collection('agenda').doc(docId).delete();
+                    alert("Kajian berhasil dihapus!");
+                } catch (error) {
+                    console.error("Gagal menghapus kajian:", error);
+                    alert("Gagal menghapus kajian.");
+                }
+            }
         }
 
         function hitungKasTotal() {
