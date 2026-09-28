@@ -15,14 +15,13 @@
     <style>
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        /* Style kustom scrollbar untuk pop-up modal */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     </style>
 </head>
 <body class="flex justify-center min-h-screen bg-fixed bg-cover bg-center relative" style="background-image: url('masjid.jpg');">
 
-    <!-- Overlay Gelap Tipis Tanpa Blur agar Foto Masjid Jelas -->
+    <!-- Overlay Gelap Tipis -->
     <div class="fixed inset-0 bg-black/30 z-0 pointer-events-none"></div>
 
     <!-- Container Utama Aplikasi Mobile -->
@@ -49,7 +48,7 @@
                 <!-- 1. TAB BERANDA -->
                 <div id="tab-beranda" class="tab-content active space-y-4">
                     
-                    <!-- Card Shalat Berikutnya & Hitung Mundur Azan -->
+                    <!-- Card Shalat Berikutnya -->
                     <div class="bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900 text-white rounded-2xl p-5 shadow-md relative overflow-hidden">
                         <div class="flex justify-between items-start">
                             <div>
@@ -71,7 +70,6 @@
                             </span>
                         </div>
 
-                        <!-- Tombol Aktivasi Audio Azan / Tarhim -->
                         <div class="mt-3 pt-2 border-t border-emerald-700/40 flex items-center justify-between">
                             <span class="text-[10px] text-emerald-200">Suara Pengingat Azan</span>
                             <button id="btn-suara" onclick="toggleAudio()" class="bg-emerald-700/80 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-[10px] font-semibold flex items-center gap-1 transition border border-emerald-500/30">
@@ -88,7 +86,7 @@
                         </div>
                     </div>
 
-                    <!-- Layout Fitur Layanan Cepat -->
+                    <!-- Layout Fitur Layanan Cepat (Termasuk Dokumen LPJ) -->
                     <div>
                         <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase mb-2">Layanan Cepat</h3>
                         <div class="grid grid-cols-4 gap-2 text-center text-[11px]">
@@ -100,9 +98,9 @@
                                 <div class="w-9 h-9 bg-blue-100 text-blue-700 rounded-xl flex items-center justify-center text-base"><i class="fa-solid fa-wallet"></i></div>
                                 <span class="font-semibold text-gray-700">Kas Masjid</span>
                             </button>
-                            <button onclick="switchTab('kajian')" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex flex-col items-center gap-1.5 hover:bg-emerald-50 transition">
-                                <div class="w-9 h-9 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-base"><i class="fa-solid fa-book-open"></i></div>
-                                <span class="font-semibold text-gray-700">Jadwal Kajian</span>
+                            <button onclick="switchTab('dokumen')" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex flex-col items-center gap-1.5 hover:bg-emerald-50 transition">
+                                <div class="w-9 h-9 bg-rose-100 text-rose-700 rounded-xl flex items-center justify-center text-base"><i class="fa-solid fa-folder-open"></i></div>
+                                <span class="font-semibold text-gray-700">Dokumen LPJ</span>
                             </button>
                             <button onclick="switchTab('profil')" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex flex-col items-center gap-1.5 hover:bg-emerald-50 transition">
                                 <div class="w-9 h-9 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-base"><i class="fa-solid fa-compass"></i></div>
@@ -111,30 +109,23 @@
                         </div>
                     </div>
 
-                    <!-- PENGUMUMAN DKM (BISA TAMPIL GAMBAR & TEKS) -->
+                    <!-- PENGUMUMAN DKM -->
                     <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200/80 shadow-xs space-y-3">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-bullhorn text-amber-600 text-base"></i>
                             <h4 class="font-bold text-amber-900 text-xs uppercase tracking-wide">Pengumuman DKM</h4>
                         </div>
-                        
-                        <!-- Gambar Pamflet Pengumuman (Tampil Jika Ada) -->
                         <div id="container-gambar-pengumuman" class="hidden overflow-hidden rounded-xl border border-amber-200 bg-amber-100/50">
                             <img id="img-pengumuman" src="" alt="Pamflet Pengumuman DKM" class="w-full h-auto max-h-60 object-cover cursor-pointer hover:opacity-95 transition" onclick="window.open(this.src, '_blank')">
                         </div>
-
-                        <!-- Teks Pengumuman -->
                         <p id="teks-pengumuman" class="text-xs text-amber-900 leading-relaxed whitespace-pre-line">Memuat pengumuman terbaru...</p>
                     </div>
 
-                    <!-- SEKSI ARTIKEL & BACAAN ISLAMI -->
+                    <!-- ARTIKEL & BACAAN ISLAMI -->
                     <div class="space-y-3 pt-2">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-newspaper text-emerald-600"></i> Artikel & Khazanah Islami
-                            </h3>
-                        </div>
-                        <!-- Container Daftar Artikel -->
+                        <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-newspaper text-emerald-600"></i> Artikel & Khazanah Islami
+                        </h3>
                         <div id="daftar-artikel-container" class="grid grid-cols-1 gap-3">
                             <p class="text-xs text-gray-400 italic">Memuat artikel...</p>
                         </div>
@@ -167,24 +158,68 @@
                     </div>
                 </div>
 
-                <!-- 4. TAB KAS MASJID -->
+                <!-- 4. TAB LAPORAN KEUANGAN & KAS MASJID LENGKAP -->
                 <div id="tab-kas" class="tab-content space-y-4">
-                    <div class="bg-emerald-800 text-white p-5 rounded-2xl shadow-md space-y-1">
-                        <span class="text-xs text-emerald-200">Total Saldo Kas Masjid</span>
-                        <h2 id="saldo-kas-total" class="text-2xl font-black text-amber-300">Rp 0</h2>
+                    
+                    <!-- Kartu Ringkasan Laporan Keuangan -->
+                    <div class="bg-emerald-900 text-white p-5 rounded-2xl shadow-md space-y-3">
+                        <div class="flex justify-between items-center border-b border-emerald-800 pb-2">
+                            <h3 class="font-bold text-xs uppercase tracking-wider text-emerald-200"><i class="fa-solid fa-chart-pie mr-1"></i> Ringkasan Keuangan Kas</h3>
+                            <span class="text-[10px] bg-emerald-800 px-2 py-0.5 rounded text-emerald-300">Terupdate</span>
+                        </div>
+
+                        <!-- Grid Kas Awal, Pemasukan, Pengeluaran, Saldo -->
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-emerald-950/50 p-2.5 rounded-xl border border-emerald-800/60">
+                                <span class="text-[10px] text-emerald-300 block">Kas Awal</span>
+                                <span id="kas-awal-val" class="font-bold text-white">Rp 0</span>
+                            </div>
+                            <div class="bg-emerald-950/50 p-2.5 rounded-xl border border-emerald-800/60">
+                                <span class="text-[10px] text-emerald-300 block">Total Pemasukan</span>
+                                <span id="kas-pemasukan-val" class="font-bold text-emerald-400">+ Rp 0</span>
+                            </div>
+                            <div class="bg-emerald-950/50 p-2.5 rounded-xl border border-emerald-800/60">
+                                <span class="text-[10px] text-emerald-300 block">Total Pengeluaran</span>
+                                <span id="kas-pengeluaran-val" class="font-bold text-rose-400">- Rp 0</span>
+                            </div>
+                            <div class="bg-emerald-950/50 p-2.5 rounded-xl border border-emerald-800/60">
+                                <span class="text-[10px] text-amber-300 block">Saldo di Bendahara</span>
+                                <span id="kas-saldo-val" class="font-bold text-amber-300 text-sm">Rp 0</span>
+                            </div>
+                        </div>
+
+                        <!-- Catatan / Keterangan Keuangan -->
+                        <div class="bg-emerald-950/80 p-2.5 rounded-xl border border-emerald-800/60 text-[11px] space-y-1">
+                            <span class="font-bold text-emerald-300 block"><i class="fa-solid fa-circle-info mr-1"></i> Keterangan Keuangan:</span>
+                            <p id="kas-keterangan-val" class="text-emerald-100 leading-relaxed italic">Memuat keterangan keuangan...</p>
+                        </div>
                     </div>
 
+                    <!-- Riwayat Transaksi Kas -->
                     <div>
-                        <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase mb-2">Riwayat Transaksi Kas</h3>
+                        <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase mb-2">Riwayat Transaksi Masuk / Keluar</h3>
                         <div id="daftar-kas-container" class="space-y-2 text-xs">
                             <p class="text-xs text-gray-400 italic">Memuat data kas...</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- 5. TAB PROFIL & STRUKTUR ORGANISASI -->
+                <!-- 5. TAB DOKUMEN & LPJ MASJID -->
+                <div id="tab-dokumen" class="tab-content space-y-4">
+                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-2">
+                        <h3 class="font-bold text-xs uppercase text-gray-800 flex items-center gap-1.5">
+                            <i class="fa-solid fa-folder-open text-rose-600"></i> Arsip Dokumen & LPJ DKM
+                        </h3>
+                        <p class="text-[11px] text-gray-500">Akses berkas resmi, Laporan Pertanggungjawaban (LPJ), dan dokumen transparansi DKM Masjid Assyarikah di bawah ini:</p>
+                    </div>
+
+                    <div id="daftar-dokumen-container" class="space-y-2">
+                        <p class="text-xs text-gray-400 italic">Memuat folder dokumen...</p>
+                    </div>
+                </div>
+
+                <!-- 6. TAB PROFIL & STRUKTUR ORGANISASI -->
                 <div id="tab-profil" class="tab-content space-y-4">
-                    <!-- Kartu Detail Masjid -->
                     <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-2 text-xs">
                         <h3 class="font-bold text-emerald-900 uppercase text-sm border-b pb-2 flex items-center gap-2">
                             <i class="fa-solid fa-mosque text-emerald-700"></i> Profil Masjid Assyarikah
@@ -193,7 +228,6 @@
                         <p><span class="font-bold text-gray-700">Periode DKM:</span> 2024 - 2028</p>
                     </div>
 
-                    <!-- Gambar Bagan Struktur Organisasi DKM -->
                     <div class="bg-white p-3 rounded-2xl border border-emerald-100 shadow-sm space-y-2">
                         <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-sitemap text-emerald-600"></i> Bagan Struktur Organisasi DKM
@@ -203,32 +237,24 @@
                         </div>
                         <p class="text-[10px] text-gray-400 italic text-center">* Ketuk gambar untuk memperbesar</p>
                     </div>
-
-                    <!-- Pengurus Realtime -->
-                    <div>
-                        <h3 class="text-xs font-bold text-gray-500 tracking-wider uppercase mb-2">Pengurus Harian DKM</h3>
-                        <div id="daftar-pengurus-container" class="grid grid-cols-2 gap-2 text-xs">
-                            <p class="text-xs text-gray-400 italic col-span-2">Memuat pengurus...</p>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- 6. TAB PANEL ADMIN (TERPROTEKSI PIN) -->
+                <!-- 7. TAB PANEL ADMIN (TERPROTEKSI PIN) -->
                 <div id="tab-admin" class="tab-content space-y-4">
                     <div class="bg-amber-100 border border-amber-300 p-3 rounded-2xl text-amber-900 text-xs font-medium flex items-center justify-between">
                         <span><i class="fa-solid fa-user-shield mr-1"></i> Mode Kelola Admin Active</span>
                         <button onclick="switchTab('beranda')" class="text-amber-800 underline font-bold">Keluar</button>
                     </div>
 
-                    <!-- UPDATE PENGUMUMAN DKM (+ GAMBAR) -->
+                    <!-- FORM SETTING LAPORAN KEUANGAN UTAMA -->
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-                        <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-bullhorn text-emerald-600 mr-1"></i> Update Pengumuman DKM</h4>
-                        <textarea id="input-pengumuman" rows="3" placeholder="Tulis teks pengumuman di sini..." class="w-full p-2 border rounded-xl text-xs bg-gray-50"></textarea>
-                        <input type="url" id="input-pengumuman-foto" placeholder="Link Foto / Pamflet Pengumuman (Opsional)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
-                        <button onclick="simpanPengumuman()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 rounded-xl text-xs transition">Update Pengumuman</button>
+                        <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-coins text-emerald-600 mr-1"></i> Setting Kas Awal & Keterangan</h4>
+                        <input type="number" id="input-kas-awal" placeholder="Kas Awal (Rp)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <textarea id="input-kas-keterangan" rows="2" placeholder="Catatan Keterangan Keuangan (Contoh: Saldo dipegang Bendahara H. Ahmad)..." class="w-full p-2 border rounded-xl text-xs bg-gray-50"></textarea>
+                        <button onclick="simpanSettingKas()" class="w-full bg-emerald-800 text-white font-bold py-2 rounded-xl text-xs">Simpan Ringkasan Kas</button>
                     </div>
 
-                    <!-- Form Tambah Kas -->
+                    <!-- FORM TAMBAH TRANSAKSI KAS -->
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
                         <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-plus text-emerald-600 mr-1"></i> Tambah Transaksi Kas</h4>
                         <input type="text" id="kas-keterangan" placeholder="Keterangan (Contoh: Infaq Jumat)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
@@ -240,7 +266,23 @@
                         <button onclick="simpanKas()" class="w-full bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">Simpan Transaksi</button>
                     </div>
 
-                    <!-- Form Tambah Kajian -->
+                    <!-- FORM UPLOAD DOKUMEN / LPJ -->
+                    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+                        <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-file-circle-plus text-rose-600 mr-1"></i> Tambah Dokumen / LPJ</h4>
+                        <input type="text" id="doc-judul" placeholder="Nama Dokumen (Contoh: LPJ Idul Adha 2026)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <input type="url" id="doc-link" placeholder="Link Berkas PDF / Google Drive / Cloud" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <button onclick="simpanDokumen()" class="w-full bg-rose-700 text-white font-bold py-2 rounded-xl text-xs">Simpan Dokumen</button>
+                    </div>
+
+                    <!-- FORM UPDATE PENGUMUMAN DKM -->
+                    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+                        <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-bullhorn text-emerald-600 mr-1"></i> Update Pengumuman DKM</h4>
+                        <textarea id="input-pengumuman" rows="3" placeholder="Tulis teks pengumuman di sini..." class="w-full p-2 border rounded-xl text-xs bg-gray-50"></textarea>
+                        <input type="url" id="input-pengumuman-foto" placeholder="Link Foto / Pamflet Pengumuman (Opsional)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
+                        <button onclick="simpanPengumuman()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 rounded-xl text-xs transition">Update Pengumuman</button>
+                    </div>
+
+                    <!-- FORM TAMBAH KAJIAN -->
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
                         <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-plus text-emerald-600 mr-1"></i> Tambah Agenda / Kajian</h4>
                         <input type="text" id="agenda-judul" placeholder="Judul Kajian (Contoh: Fiqih Kitab Bajuri)" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
@@ -251,7 +293,7 @@
                         <button onclick="simpanAgenda()" class="w-full bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">Simpan Kajian</button>
                     </div>
 
-                    <!-- Form Tambah Artikel Baru -->
+                    <!-- FORM TERBITKAN ARTIKEL -->
                     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
                         <h4 class="font-bold text-xs text-gray-800 uppercase"><i class="fa-solid fa-pen-to-square text-emerald-600 mr-1"></i> Terbitkan Artikel Islami</h4>
                         <input type="text" id="artikel-judul" placeholder="Judul Artikel" class="w-full p-2 border rounded-xl text-xs bg-gray-50">
@@ -274,7 +316,6 @@
                 <i class="fa-solid fa-calendar-days text-lg"></i>
                 <span class="text-[10px] font-semibold">Kajian</span>
             </button>
-            <!-- Tombol Infaq Tengah -->
             <button id="nav-infaq" onclick="switchTab('infaq')" class="nav-item bg-emerald-700 text-white w-12 h-12 rounded-full flex items-center justify-center -mt-5 shadow-lg border-4 border-slate-50 transition active:scale-95">
                 <i class="fa-solid fa-heart text-xl"></i>
             </button>
@@ -290,7 +331,7 @@
 
     </div>
 
-    <!-- POPUP MODAL UNTUK MEMBACA ARTIKEL LENGKAP -->
+    <!-- POPUP MODAL UNTUK MEMBACA ARTIKEL -->
     <div id="modal-baca-artikel" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xs">
         <div class="bg-white rounded-3xl max-w-md w-full max-h-[85vh] overflow-y-auto p-5 space-y-4 border border-emerald-100 shadow-2xl relative">
             <button onclick="tutupModalArtikel()" class="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 text-gray-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">
@@ -307,9 +348,8 @@
         </div>
     </div>
 
-    <!-- SCRIPT FIREBASE & JAVASCRIPT LOGIC -->
+    <!-- SCRIPT FIREBASE & LOGIC -->
     <script>
-        // Konfigurasi Firebase Proyek DKM Assyarikah
         const firebaseConfig = {
             apiKey: "AIzaSyDummyApiKeyForDKMAssyarikah2026",
             authDomain: "dkm-assyarikah.firebaseapp.com",
@@ -319,16 +359,13 @@
             appId: "1:1234567890:web:abcdef123456"
         };
 
-        // Inisialisasi Firebase
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         const db = firebase.firestore();
 
-        // 1. PIN ADMIN
         const PIN_ADMIN = "1234";
 
-        // 2. NAVIGASI TAB BERSAMA PROTEKSI PIN
         function switchTab(tabName) {
             if (tabName === 'admin') {
                 const inputPin = prompt("Masukkan PIN / Kata Sandi Admin DKM:");
@@ -344,7 +381,9 @@
                 el.classList.add('text-gray-400');
             });
 
-            document.getElementById('tab-' + tabName).classList.add('active');
+            const targetTab = document.getElementById('tab-' + tabName);
+            if (targetTab) targetTab.classList.add('active');
+            
             const navBtn = document.getElementById('nav-' + tabName);
             if (navBtn && tabName !== 'infaq') {
                 navBtn.classList.remove('text-gray-400');
@@ -352,7 +391,7 @@
             }
         }
 
-        // 3. SISTEM PENGINGAT SUARA AZAN / TARHIM
+        // AZAN & SUARA
         let isAudioEnabled = false;
         let audioAzan = new Audio('https://cdn.islamicfinder.org/adhan/athan1.mp3');
 
@@ -377,7 +416,7 @@
             }
         }
 
-        // 4. JADWAL SHALAT & COUNTDOWN
+        // JADWAL SHALAT & COUNTDOWN
         const jadwalShalat = [
             { nama: 'Subuh', jam: '04:35' },
             { nama: 'Dzuhur', jam: '11:55' },
@@ -444,39 +483,133 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // 5. SEKSI ARTIKEL
-        let dataArtikel = [];
+        // REALTIME FIRESTORE DATA
+        let kasAwalNominal = 0;
 
-        async function simpanArtikel() {
-            const judul = document.getElementById('artikel-judul').value.trim();
-            const gambarUrl = document.getElementById('artikel-gambar').value.trim();
-            const isi = document.getElementById('artikel-isi').value.trim();
+        function loadRealtimeData() {
+            // Pengumuman
+            db.collection('pengumuman').doc('infoUtama').onSnapshot(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('teks-pengumuman').innerText = data.teks || 'Belum ada pengumuman.';
+                    const containerGambar = document.getElementById('container-gambar-pengumuman');
+                    const imgEl = document.getElementById('img-pengumuman');
 
-            if (!judul || !isi) {
-                alert("Judul dan isi artikel tidak boleh kosong!");
-                return;
-            }
+                    if (data.fotoUrl && data.fotoUrl.trim() !== '') {
+                        imgEl.src = data.fotoUrl;
+                        containerGambar.classList.remove('hidden');
+                    } else {
+                        containerGambar.classList.add('hidden');
+                    }
+                }
+            });
 
-            try {
-                await db.collection('artikel').add({
-                    judul: judul,
-                    gambarUrl: gambarUrl || 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=500',
-                    isi: isi,
-                    tanggal: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            // Ringkasan Keuangan Utama (Kas Awal & Keterangan)
+            db.collection('pengaturan').doc('keuangan').onSnapshot(doc => {
+                if(doc.exists) {
+                    const d = doc.data();
+                    kasAwalNominal = Number(d.kasAwal) || 0;
+                    document.getElementById('kas-awal-val').innerText = `Rp ${kasAwalNominal.toLocaleString('id-ID')}`;
+                    document.getElementById('kas-keterangan-val').innerText = d.keterangan || 'Tidak ada catatan keterangan.';
+                }
+                hitungKasTotal();
+            });
+
+            // Kas Realtime
+            db.collection('kas').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+                let totalPemasukan = 0;
+                let totalPengeluaran = 0;
+                let kasHtml = '';
+
+                snapshot.docs.forEach(doc => {
+                    const item = doc.data();
+                    const nominal = Number(item.nominal) || 0;
+                    if (item.tipe === 'masuk') totalPemasukan += nominal;
+                    else totalPengeluaran += nominal;
+
+                    kasHtml += `
+                    <div class="bg-white p-3 rounded-xl border border-gray-100 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-gray-800">${item.keterangan || 'Transaksi'}</p>
+                            <span class="text-[10px] text-gray-400">${item.tipe === 'masuk' ? 'Pemasukan' : 'Pengeluaran'}</span>
+                        </div>
+                        <span class="font-bold ${item.tipe === 'masuk' ? 'text-emerald-600' : 'text-rose-600'}">
+                            ${item.tipe === 'masuk' ? '+' : '-'} Rp ${nominal.toLocaleString('id-ID')}
+                        </span>
+                    </div>
+                    `;
                 });
 
-                alert("Artikel berhasil diterbitkan!");
-                document.getElementById('artikel-judul').value = '';
-                document.getElementById('artikel-gambar').value = '';
-                document.getElementById('artikel-isi').value = '';
-                switchTab('beranda');
-            } catch (error) {
-                console.error("Error simpan artikel:", error);
-                alert("Gagal menyimpan artikel.");
-            }
+                window.totalMasukCache = totalPemasukan;
+                window.totalKeluarCache = totalPengeluaran;
+
+                document.getElementById('daftar-kas-container').innerHTML = kasHtml || '<p class="text-xs text-gray-400 italic">Belum ada riwayat kas.</p>';
+                hitungKasTotal();
+            });
+
+            // Dokumen Realtime
+            db.collection('dokumen').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+                let docHtml = '';
+                snapshot.docs.forEach(doc => {
+                    const item = doc.data();
+                    docHtml += `
+                    <a href="${item.link}" target="_blank" class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex justify-between items-center hover:border-rose-300 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center"><i class="fa-solid fa-file-pdf text-base"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-xs">${item.judul}</h4>
+                                <span class="text-[10px] text-gray-400">Klik untuk melihat/unduh berkas</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-gray-400"></i>
+                    </a>
+                    `;
+                });
+                document.getElementById('daftar-dokumen-container').innerHTML = docHtml || '<p class="text-xs text-gray-400 italic">Belum ada dokumen LPJ yang diunggah.</p>';
+            });
+
+            // Agenda Realtime
+            db.collection('agenda').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+                let agendaHtml = '';
+                snapshot.docs.forEach(doc => {
+                    const item = doc.data();
+                    let fotoHtml = item.fotoUrl 
+                        ? `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border flex-shrink-0">`
+                        : `<div class="w-16 h-20 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-book-quran text-2xl"></i></div>`;
+
+                    agendaHtml += `
+                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center">
+                        ${fotoHtml}
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">
+                                ${item.tanggal || ''} | ${item.waktu || ''}
+                            </span>
+                            <h4 class="font-bold text-gray-800 text-xs mt-1 truncate">${item.judul || ''}</h4>
+                            <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+                                <i class="fa-solid fa-user-tie text-emerald-600"></i> ${item.penceramah || ''}
+                            </p>
+                        </div>
+                    </div>
+                    `;
+                });
+                document.getElementById('daftar-agenda-container').innerHTML = agendaHtml || '<p class="text-xs text-gray-400 italic">Belum ada jadwal kajian.</p>';
+            });
+
+            loadArtikelRealtime();
         }
 
+        function hitungKasTotal() {
+            const masuk = window.totalMasukCache || 0;
+            const keluar = window.totalKeluarCache || 0;
+            const saldoAkhir = kasAwalNominal + masuk - keluar;
+
+            document.getElementById('kas-pemasukan-val').innerText = `+ Rp ${masuk.toLocaleString('id-ID')}`;
+            document.getElementById('kas-pengeluaran-val').innerText = `- Rp ${keluar.toLocaleString('id-ID')}`;
+            document.getElementById('kas-saldo-val').innerText = `Rp ${saldoAkhir.toLocaleString('id-ID')}`;
+        }
+
+        // ARTIKEL LOGIC
+        let dataArtikel = [];
         function loadArtikelRealtime() {
             db.collection('artikel').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
                 const container = document.getElementById('daftar-artikel-container');
@@ -526,85 +659,19 @@
             document.getElementById('modal-baca-artikel').classList.add('hidden');
         }
 
-        // 6. REALTIME FIRESTORE DATA (PENGUMUMAN GAMBAR, KAS, AGENDA)
-        function loadRealtimeData() {
-            // Pengumuman Realtime (Foto + Teks)
-            db.collection('pengumuman').doc('infoUtama').onSnapshot(doc => {
-                if (doc.exists) {
-                    const data = doc.data();
-                    document.getElementById('teks-pengumuman').innerText = data.teks || 'Belum ada pengumuman.';
-                    
-                    const containerGambar = document.getElementById('container-gambar-pengumuman');
-                    const imgEl = document.getElementById('img-pengumuman');
+        // FUNGSI ADMIN
+        async function simpanSettingKas() {
+            const kasAwal = document.getElementById('input-kas-awal').value;
+            const ket = document.getElementById('input-kas-keterangan').value;
 
-                    if (data.fotoUrl && data.fotoUrl.trim() !== '') {
-                        imgEl.src = data.fotoUrl;
-                        containerGambar.classList.remove('hidden');
-                    } else {
-                        containerGambar.classList.add('hidden');
-                    }
-                }
+            await db.collection('pengaturan').doc('keuangan').set({
+                kasAwal: Number(kasAwal) || 0,
+                keterangan: ket
             });
-
-            // Kas Realtime
-            db.collection('kas').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-                let totalSaldo = 0;
-                let kasHtml = '';
-
-                snapshot.docs.forEach(doc => {
-                    const item = doc.data();
-                    const nominal = Number(item.nominal) || 0;
-                    if (item.tipe === 'masuk') totalSaldo += nominal;
-                    else totalSaldo -= nominal;
-
-                    kasHtml += `
-                    <div class="bg-white p-3 rounded-xl border border-gray-100 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-gray-800">${item.keterangan || 'Transaksi'}</p>
-                            <span class="text-[10px] text-gray-400">${item.tipe === 'masuk' ? 'Pemasukan' : 'Pengeluaran'}</span>
-                        </div>
-                        <span class="font-bold ${item.tipe === 'masuk' ? 'text-emerald-600' : 'text-rose-600'}">
-                            ${item.tipe === 'masuk' ? '+' : '-'} Rp ${nominal.toLocaleString('id-ID')}
-                        </span>
-                    </div>
-                    `;
-                });
-
-                document.getElementById('saldo-kas-total').innerText = `Rp ${totalSaldo.toLocaleString('id-ID')}`;
-                document.getElementById('daftar-kas-container').innerHTML = kasHtml || '<p class="text-xs text-gray-400 italic">Belum ada riwayat kas.</p>';
-            });
-
-            // Agenda / Kajian Realtime
-            db.collection('agenda').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-                let agendaHtml = '';
-                snapshot.docs.forEach(doc => {
-                    const item = doc.data();
-                    let fotoHtml = item.fotoUrl 
-                        ? `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border flex-shrink-0">`
-                        : `<div class="w-16 h-20 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-book-quran text-2xl"></i></div>`;
-
-                    agendaHtml += `
-                    <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-xs flex gap-3 items-center">
-                        ${fotoHtml}
-                        <div class="flex-1 min-w-0">
-                            <span class="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">
-                                ${item.tanggal || ''} | ${item.waktu || ''}
-                            </span>
-                            <h4 class="font-bold text-gray-800 text-xs mt-1 truncate">${item.judul || ''}</h4>
-                            <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
-                                <i class="fa-solid fa-user-tie text-emerald-600"></i> ${item.penceramah || ''}
-                            </p>
-                        </div>
-                    </div>
-                    `;
-                });
-                document.getElementById('daftar-agenda-container').innerHTML = agendaHtml || '<p class="text-xs text-gray-400 italic">Belum ada jadwal kajian.</p>';
-            });
-
-            loadArtikelRealtime();
+            alert('Ringkasan keuangan berhasil diperbarui!');
+            switchTab('kas');
         }
 
-        // 7. FUNGSI EDIT ADMIN
         async function simpanKas() {
             const ket = document.getElementById('kas-keterangan').value;
             const nom = document.getElementById('kas-nominal').value;
@@ -616,6 +683,18 @@
             });
             alert('Transaksi Kas tersimpan!');
             switchTab('kas');
+        }
+
+        async function simpanDokumen() {
+            const judul = document.getElementById('doc-judul').value;
+            const link = document.getElementById('doc-link').value;
+            if(!judul || !link) return alert('Isi judul dan link dokumen!');
+
+            await db.collection('dokumen').add({
+                judul, link, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            alert('Dokumen LPJ berhasil diunggah!');
+            switchTab('dokumen');
         }
 
         async function simpanAgenda() {
@@ -648,7 +727,25 @@
             switchTab('beranda');
         }
 
-        // Panggil Pemuatan Data Realtime saat Aplikasi Terbuka
+        async function simpanArtikel() {
+            const judul = document.getElementById('artikel-judul').value.trim();
+            const gambarUrl = document.getElementById('artikel-gambar').value.trim();
+            const isi = document.getElementById('artikel-isi').value.trim();
+
+            if (!judul || !isi) return alert("Judul dan isi artikel tidak boleh kosong!");
+
+            await db.collection('artikel').add({
+                judul: judul,
+                gambarUrl: gambarUrl || 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=500',
+                isi: isi,
+                tanggal: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            alert("Artikel berhasil diterbitkan!");
+            switchTab('beranda');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadRealtimeData();
         });
