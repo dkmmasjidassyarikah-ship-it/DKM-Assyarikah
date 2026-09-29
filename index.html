@@ -15,73 +15,68 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
     </style>
 </head>
-<body class="bg-slate-950 flex justify-center min-h-screen text-slate-100">
+<body class="flex justify-center min-h-screen text-slate-100">
 
-    <!-- Container Utama Aplikasi (Dark Navy Theme) -->
-    <div class="w-full max-w-md bg-[#0F172A] min-h-screen pb-24 shadow-2xl relative flex flex-col justify-between overflow-x-hidden">
+    <!-- Container Utama Aplikasi (Islamic Mobile UI Layout) -->
+    <div class="w-full max-w-md bg-[#0b1329] min-h-screen pb-28 shadow-2xl relative flex flex-col justify-between overflow-x-hidden">
         
         <div>
-            <!-- HEADER APLIKASI -->
-            <header class="p-4 flex justify-between items-center pt-5 bg-[#0B1120] border-b border-slate-800">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-indigo-500/20 rounded-full flex items-center justify-center border border-indigo-400/30 text-indigo-400">
-                        <i class="fa-solid fa-mosque text-base"></i>
+            <!-- HEADER APLIKASI LENGKUNG (CURVED HEADER) -->
+            <header class="bg-gradient-to-b from-[#132247] to-[#0b1329] p-5 rounded-b-[2.5rem] border-b border-slate-800 shadow-xl relative z-10 space-y-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 bg-indigo-500/20 rounded-2xl flex items-center justify-center border border-indigo-400/30 text-indigo-400 shadow-inner">
+                            <i class="fa-solid fa-mosque text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-indigo-300 font-medium">Assalamu'alaikum,</p>
+                            <h1 class="font-bold text-sm leading-tight text-white">DKM Masjid Assyarikah</h1>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-[10px] text-indigo-300 font-medium">Assalamu'alaikum,</p>
-                        <h1 class="font-bold text-xs leading-tight text-white">DKM Masjid Assyarikah</h1>
-                    </div>
-                </div>
-                <div class="text-right flex items-center gap-2">
-                    <div class="text-[10px] text-slate-400">
-                        <p class="font-bold text-slate-200 flex items-center gap-1 justify-end"><i class="fa-solid fa-location-dot text-rose-400"></i> Babakan Laban</p>
-                        <p>Cianjur, ID</p>
-                    </div>
-                    <button onclick="switchTab('admin')" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 p-2 rounded-xl text-xs border border-slate-700 transition ml-1" title="Panel Admin">
-                        <i class="fa-solid fa-sliders"></i>
+                    <button onclick="switchTab('admin')" class="bg-indigo-950/80 hover:bg-indigo-900 text-indigo-300 px-3 py-1.5 rounded-xl text-xs border border-indigo-800/50 transition flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-sliders"></i> Admin
                     </button>
                 </div>
-            </header>
 
-            <!-- ISI KONTEN APLIKASI -->
-            <main class="p-4 space-y-4">
-
-                <!-- 1. TAB BERANDA -->
-                <div id="tab-beranda" class="tab-content active space-y-4">
-                    
-                    <!-- HERO CARD: SHALAT BERIKUTNYA & COUNTDOWN -->
-                    <div class="bg-gradient-to-br from-[#1E293B] to-[#0F172A] rounded-3xl p-5 shadow-xl border border-slate-800 relative overflow-hidden space-y-3">
-                        <div class="flex justify-between items-start">
-                            <div class="space-y-1">
-                                <span class="text-[10px] text-indigo-300 bg-indigo-950/80 px-2.5 py-0.5 rounded-full font-semibold border border-indigo-800/50 inline-block">
-                                    Next Prayer in <span id="countdown-timer" class="text-amber-400 font-mono font-bold">--:--:--</span>
-                                </span>
-                                <h2 id="nama-shalat-berikutnya" class="text-2xl font-black text-white mt-1">Dzuhur</h2>
-                                <p id="jam-shalat-berikutnya" class="text-xl font-bold text-indigo-200">12:13 PM</p>
-                            </div>
-                            <div class="text-right space-y-1">
-                                <p id="tgl-hijriah" class="text-xs text-amber-400 font-bold">Memuat Hijriah...</p>
-                                <p id="tgl-masehi" class="text-[10px] text-slate-400">Memuat Masehi...</p>
-                            </div>
-                        </div>
-
-                        <!-- Action Bar Audio -->
-                        <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                            <span class="text-[10px] text-slate-400">Pengingat Suara Azan</span>
-                            <button onclick="toggleAudio()" class="bg-slate-800 hover:bg-slate-700 text-indigo-300 px-3 py-1 rounded-xl text-[10px] font-semibold border border-slate-700 flex items-center gap-1.5 transition">
-                                <i class="fa-solid fa-volume-xmark" id="icon-suara"></i> <span id="text-suara">Aktifkan Suara</span>
+                <!-- CARD JADWAL SHALAT BERIKUTNYA & COUNTDOWN -->
+                <div class="bg-gradient-to-r from-indigo-950 via-[#101b38] to-[#0d1833] rounded-3xl p-4 border border-indigo-500/20 shadow-2xl relative overflow-hidden flex justify-between items-center">
+                    <div class="space-y-1 z-10">
+                        <span class="text-[9px] text-indigo-200 bg-indigo-900/60 px-2.5 py-0.5 rounded-full font-semibold border border-indigo-500/30 inline-block">
+                            Azan <span id="nama-shalat-berikutnya" class="text-amber-300 font-bold">Dzuhur</span> dalam <span id="countdown-timer" class="text-amber-300 font-mono font-bold">--:--:--</span>
+                        </span>
+                        <h2 id="jam-shalat-berikutnya" class="text-2xl font-black text-white tracking-wide">12:13 PM</h2>
+                        <div class="pt-1 flex items-center gap-2">
+                            <button onclick="toggleAudio()" class="bg-slate-900/80 hover:bg-slate-800 text-indigo-300 px-2.5 py-1 rounded-lg text-[10px] font-semibold border border-indigo-800/40 flex items-center gap-1">
+                                <i class="fa-solid fa-volume-xmark" id="icon-suara"></i> <span id="text-suara">Suara Azan</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- GRID JADWAL SHALAT -->
+                    <!-- Kalender Hijriah & Masehi -->
+                    <div class="text-right z-10 space-y-1">
+                        <div class="w-10 h-10 bg-amber-400/10 text-amber-300 border border-amber-400/30 rounded-2xl flex items-center justify-center font-bold text-base ml-auto mb-1">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+                        <p id="tgl-hijriah" class="text-xs text-amber-300 font-bold">Memuat Hijriah...</p>
+                        <p id="tgl-masehi" class="text-[10px] text-slate-400">Memuat Masehi...</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ISI KONTEN APLIKASI -->
+            <main class="p-4 space-y-5 -mt-2">
+
+                <!-- 1. TAB BERANDA -->
+                <div id="tab-beranda" class="tab-content active space-y-5">
+                    
+                    <!-- GRID JADWAL SHALAT HARI INI -->
                     <div>
                         <h3 class="text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-2">Jadwal Shalat Hari Ini</h3>
                         <div id="grid-jadwal-shalat" class="grid grid-cols-5 gap-1.5 text-center text-xs">
@@ -89,69 +84,69 @@
                         </div>
                     </div>
 
-                    <!-- MENU UTAMA GRID 2 KOLOM (CURVED CARD DESIGN) -->
+                    <!-- MENU UTAMA GRID 2 KOLOM (MODERN CARDS) -->
                     <div>
-                        <h3 class="text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-2">Menu & Layanan</h3>
+                        <h3 class="text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-2">Layanan Utama DKM</h3>
                         <div class="grid grid-cols-2 gap-3 text-left">
                             
                             <!-- Card 1: Kajian -->
-                            <div onclick="switchTab('kajian')" class="bg-[#1E293B] p-4 rounded-2xl border border-slate-800 shadow-lg hover:border-indigo-500/50 cursor-pointer transition flex flex-col justify-between h-28 group">
+                            <div onclick="switchTab('kajian')" class="bg-gradient-to-br from-[#162447] to-[#0e172e] p-4 rounded-3xl border border-slate-800 shadow-lg hover:border-indigo-500/40 cursor-pointer transition flex flex-col justify-between h-32 group relative overflow-hidden">
                                 <div class="z-10">
-                                    <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition">Jadwal & Kajian</h4>
+                                    <div class="w-8 h-8 bg-indigo-500/10 rounded-xl flex items-center justify-center border border-indigo-400/20 text-indigo-400 mb-2">
+                                        <i class="fa-solid fa-book-quran"></i>
+                                    </div>
+                                    <h4 class="font-bold text-sm text-white group-hover:text-amber-300 transition">Jadwal & Kajian</h4>
                                     <p class="text-[10px] text-slate-400">Historis Kitab & Agenda</p>
                                 </div>
-                                <div class="z-10 flex justify-between items-end">
-                                    <span class="text-[9px] bg-slate-900 text-indigo-300 px-2 py-0.5 rounded-md border border-slate-700">Buka</span>
-                                    <i class="fa-solid fa-book-quran text-2xl text-indigo-400/60"></i>
-                                </div>
+                                <i class="fa-solid fa-book-open text-4xl text-indigo-500/10 absolute -right-2 -bottom-2 group-hover:scale-110 transition"></i>
                             </div>
 
                             <!-- Card 2: Infaq -->
-                            <div onclick="switchTab('infaq')" class="bg-[#1E293B] p-4 rounded-2xl border border-slate-800 shadow-lg hover:border-indigo-500/50 cursor-pointer transition flex flex-col justify-between h-28 group">
+                            <div onclick="switchTab('infaq')" class="bg-gradient-to-br from-[#162447] to-[#0e172e] p-4 rounded-3xl border border-slate-800 shadow-lg hover:border-emerald-500/40 cursor-pointer transition flex flex-col justify-between h-32 group relative overflow-hidden">
                                 <div class="z-10">
-                                    <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition">Donasi & Infaq</h4>
+                                    <div class="w-8 h-8 bg-emerald-500/10 rounded-xl flex items-center justify-center border border-emerald-400/20 text-emerald-400 mb-2">
+                                        <i class="fa-solid fa-qrcode"></i>
+                                    </div>
+                                    <h4 class="font-bold text-sm text-white group-hover:text-amber-300 transition">Donasi & Infaq</h4>
                                     <p class="text-[10px] text-slate-400">Scan QRIS Digital</p>
                                 </div>
-                                <div class="z-10 flex justify-between items-end">
-                                    <span class="text-[9px] bg-emerald-950/80 text-emerald-400 px-2 py-0.5 rounded-md border border-emerald-800/50">QRIS</span>
-                                    <i class="fa-solid fa-qrcode text-2xl text-emerald-400/60"></i>
-                                </div>
+                                <i class="fa-solid fa-hand-holding-dollar text-4xl text-emerald-500/10 absolute -right-2 -bottom-2 group-hover:scale-110 transition"></i>
                             </div>
 
                             <!-- Card 3: Kas Masjid -->
-                            <div onclick="switchTab('kas')" class="bg-[#1E293B] p-4 rounded-2xl border border-slate-800 shadow-lg hover:border-indigo-500/50 cursor-pointer transition flex flex-col justify-between h-28 group">
+                            <div onclick="switchTab('kas')" class="bg-gradient-to-br from-[#162447] to-[#0e172e] p-4 rounded-3xl border border-slate-800 shadow-lg hover:border-amber-500/40 cursor-pointer transition flex flex-col justify-between h-32 group relative overflow-hidden">
                                 <div class="z-10">
-                                    <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition">Laporan Kas</h4>
+                                    <div class="w-8 h-8 bg-amber-500/10 rounded-xl flex items-center justify-center border border-amber-400/20 text-amber-400 mb-2">
+                                        <i class="fa-solid fa-wallet"></i>
+                                    </div>
+                                    <h4 class="font-bold text-sm text-white group-hover:text-amber-300 transition">Laporan Kas</h4>
                                     <p class="text-[10px] text-slate-400">Transparansi Keuangan</p>
                                 </div>
-                                <div class="z-10 flex justify-between items-end">
-                                    <span class="text-[9px] bg-amber-950/80 text-amber-400 px-2 py-0.5 rounded-md border border-amber-800/50">Laporan</span>
-                                    <i class="fa-solid fa-wallet text-2xl text-amber-400/60"></i>
-                                </div>
+                                <i class="fa-solid fa-chart-pie text-4xl text-amber-500/10 absolute -right-2 -bottom-2 group-hover:scale-110 transition"></i>
                             </div>
 
                             <!-- Card 4: Dokumen LPJ -->
-                            <div onclick="switchTab('dokumen')" class="bg-[#1E293B] p-4 rounded-2xl border border-slate-800 shadow-lg hover:border-indigo-500/50 cursor-pointer transition flex flex-col justify-between h-28 group">
+                            <div onclick="switchTab('dokumen')" class="bg-gradient-to-br from-[#162447] to-[#0e172e] p-4 rounded-3xl border border-slate-800 shadow-lg hover:border-rose-500/40 cursor-pointer transition flex flex-col justify-between h-32 group relative overflow-hidden">
                                 <div class="z-10">
-                                    <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition">Dokumen LPJ</h4>
+                                    <div class="w-8 h-8 bg-rose-500/10 rounded-xl flex items-center justify-center border border-rose-400/20 text-rose-400 mb-2">
+                                        <i class="fa-solid fa-folder-open"></i>
+                                    </div>
+                                    <h4 class="font-bold text-sm text-white group-hover:text-amber-300 transition">Dokumen LPJ</h4>
                                     <p class="text-[10px] text-slate-400">Arsip Berkas DKM</p>
                                 </div>
-                                <div class="z-10 flex justify-between items-end">
-                                    <span class="text-[9px] bg-rose-950/80 text-rose-400 px-2 py-0.5 rounded-md border border-rose-800/50">Arsip</span>
-                                    <i class="fa-solid fa-folder-open text-2xl text-rose-400/60"></i>
-                                </div>
+                                <i class="fa-solid fa-file-pdf text-4xl text-rose-500/10 absolute -right-2 -bottom-2 group-hover:scale-110 transition"></i>
                             </div>
 
                         </div>
                     </div>
 
                     <!-- PENGUMUMAN DKM -->
-                    <div class="bg-[#1E293B] p-4 rounded-2xl border border-slate-800 shadow-md space-y-3">
+                    <div class="bg-[#131f3d] p-4 rounded-3xl border border-slate-800 shadow-md space-y-3">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-bullhorn text-amber-400 text-base"></i>
                             <h4 class="font-bold text-amber-300 text-xs uppercase tracking-wide">Pengumuman DKM</h4>
                         </div>
-                        <div id="container-gambar-pengumuman" class="hidden overflow-hidden rounded-xl border border-slate-700">
+                        <div id="container-gambar-pengumuman" class="hidden overflow-hidden rounded-2xl border border-slate-700">
                             <img id="img-pengumuman" src="" alt="Pamflet Pengumuman DKM" class="w-full h-auto max-h-60 object-cover cursor-pointer hover:opacity-95 transition" onclick="window.open(this.src, '_blank')">
                         </div>
                         <p id="teks-pengumuman" class="text-xs text-slate-300 leading-relaxed whitespace-pre-line">Memuat pengumuman terbaru...</p>
@@ -173,7 +168,7 @@
                 <div id="tab-kajian" class="tab-content space-y-4">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase">Jadwal Agenda & Kajian DKM</h3>
-                        <span class="text-[10px] text-indigo-300 bg-indigo-950/80 px-2 py-0.5 rounded-full font-semibold border border-indigo-800/50">*Ketuk kajian/kitab untuk info lengkap</span>
+                        <span class="text-[10px] text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded-full font-semibold border border-indigo-800/50">*Ketuk kajian/kitab untuk info</span>
                     </div>
                     <div id="daftar-agenda-container" class="space-y-3">
                         <p class="text-xs text-slate-500 italic">Memuat agenda kajian...</p>
@@ -182,13 +177,13 @@
 
                 <!-- 3. TAB INFAQ (QRIS) -->
                 <div id="tab-infaq" class="tab-content space-y-4 text-center">
-                    <div class="bg-[#1E293B] p-6 rounded-3xl border border-slate-800 shadow-md space-y-4">
+                    <div class="bg-[#131f3d] p-6 rounded-3xl border border-slate-800 shadow-md space-y-4">
                         <h3 class="font-bold text-amber-300 text-base">Infaq & Sedekah Digital</h3>
                         <p class="text-xs text-slate-300">Scan Kode QRIS di bawah ini menggunakan M-Banking atau E-Wallet pilihan Anda:</p>
                         <div class="flex justify-center p-3 bg-white rounded-2xl border">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=DKM-Masjid-Assyarikah-Infaq" alt="QRIS Infaq DKM" class="w-48 h-48 object-contain">
                         </div>
-                        <div class="text-xs text-slate-300 bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <div class="text-xs text-slate-300 bg-slate-900 p-3 rounded-2xl border border-slate-800 space-y-1">
                             <p class="font-bold text-indigo-300">Rekening Resmi DKM Assyarikah</p>
                             <p>Bank Syariah Indonesia (BSI)</p>
                             <p class="font-mono font-bold text-amber-400">7123-4567-89</p>
@@ -199,32 +194,32 @@
 
                 <!-- 4. TAB LAPORAN KEUANGAN & KAS MASJID LENGKAP -->
                 <div id="tab-kas" class="tab-content space-y-4">
-                    <div class="bg-[#1E293B] text-white p-5 rounded-2xl shadow-md space-y-3 border border-slate-800">
+                    <div class="bg-[#131f3d] text-white p-5 rounded-3xl shadow-md space-y-3 border border-slate-800">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                             <h3 class="font-bold text-xs uppercase tracking-wider text-amber-300"><i class="fa-solid fa-chart-pie mr-1"></i> Ringkasan Keuangan Kas</h3>
                             <span class="text-[10px] bg-slate-900 px-2 py-0.5 rounded text-indigo-300 border border-slate-800">Terupdate</span>
                         </div>
 
                         <div class="grid grid-cols-2 gap-2 text-xs">
-                            <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                            <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800">
                                 <span class="text-[10px] text-slate-400 block">Kas Awal</span>
                                 <span id="kas-awal-val" class="font-bold text-white">Rp 0</span>
                             </div>
-                            <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                            <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800">
                                 <span class="text-[10px] text-slate-400 block">Total Pemasukan</span>
                                 <span id="kas-pemasukan-val" class="font-bold text-emerald-400">+ Rp 0</span>
                             </div>
-                            <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                            <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800">
                                 <span class="text-[10px] text-slate-400 block">Total Pengeluaran</span>
                                 <span id="kas-pengeluaran-val" class="font-bold text-rose-400">- Rp 0</span>
                             </div>
-                            <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                            <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800">
                                 <span class="text-[10px] text-amber-300 block">Saldo di Bendahara</span>
                                 <span id="kas-saldo-val" class="font-bold text-amber-300 text-sm">Rp 0</span>
                             </div>
                         </div>
 
-                        <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800 text-[11px] space-y-1">
+                        <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800 text-[11px] space-y-1">
                             <span class="font-bold text-indigo-300 block"><i class="fa-solid fa-circle-info mr-1"></i> Keterangan Keuangan:</span>
                             <p id="kas-keterangan-val" class="text-slate-300 leading-relaxed italic">Memuat keterangan keuangan...</p>
                         </div>
@@ -240,7 +235,7 @@
 
                 <!-- 5. TAB DOKUMEN & LPJ MASJID -->
                 <div id="tab-dokumen" class="tab-content space-y-4">
-                    <div class="bg-[#1E293B] p-4 rounded-2xl border border-slate-800 shadow-sm space-y-2">
+                    <div class="bg-[#131f3d] p-4 rounded-3xl border border-slate-800 shadow-sm space-y-2">
                         <h3 class="font-bold text-xs uppercase text-amber-300 flex items-center gap-1.5">
                             <i class="fa-solid fa-folder-open text-rose-400"></i> Arsip Dokumen & LPJ DKM
                         </h3>
@@ -254,7 +249,7 @@
 
                 <!-- 6. TAB PROFIL & STRUKTUR ORGANISASI -->
                 <div id="tab-profil" class="tab-content space-y-4">
-                    <div class="bg-[#1E293B] p-4 rounded-2xl border border-slate-800 shadow-sm space-y-2 text-xs">
+                    <div class="bg-[#131f3d] p-4 rounded-3xl border border-slate-800 shadow-sm space-y-2 text-xs">
                         <h3 class="font-bold text-amber-300 uppercase text-sm border-b border-slate-800 pb-2 flex items-center gap-2">
                             <i class="fa-solid fa-mosque text-indigo-400"></i> Profil Masjid Assyarikah
                         </h3>
@@ -262,11 +257,11 @@
                         <p><span class="font-bold text-slate-300">Periode DKM:</span> 2024 - 2028</p>
                     </div>
 
-                    <div class="bg-[#1E293B] p-3 rounded-2xl border border-slate-800 shadow-sm space-y-2">
+                    <div class="bg-[#131f3d] p-3 rounded-3xl border border-slate-800 shadow-sm space-y-2">
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                             <i class="fa-solid fa-sitemap text-amber-400"></i> Bagan Struktur Organisasi DKM
                         </h4>
-                        <div class="overflow-hidden rounded-xl border border-slate-800 bg-black">
+                        <div class="overflow-hidden rounded-2xl border border-slate-800 bg-black">
                             <img src="struktur.png" alt="Struktur Organisasi DKM Masjid Assyarikah" class="w-full h-auto object-cover cursor-pointer hover:opacity-95 transition" onerror="this.onerror=null; this.src='struktur.jpg';" onclick="window.open(this.src, '_blank')">
                         </div>
                         <p class="text-[10px] text-slate-500 italic text-center">* Ketuk gambar untuk memperbesar</p>
@@ -361,29 +356,29 @@
             </main>
         </div>
 
-        <!-- BOTTOM NAVIGATION BAR (FLOATING CURVED BAR) -->
-        <nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-[#0B1120] border-t border-slate-800 px-6 py-2 flex justify-between items-center z-40 shadow-2xl">
+        <!-- FLOATING BOTTOM NAVIGATION BAR (MENUMPANG LENGKUNG DI ATAS POPUP) -->
+        <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm bg-[#131f3d]/90 backdrop-blur-md border border-slate-700/80 rounded-full px-5 py-2.5 flex justify-between items-center z-40 shadow-2xl">
             <button id="nav-beranda" onclick="switchTab('beranda')" class="nav-item text-amber-400 flex flex-col items-center gap-0.5">
                 <i class="fa-solid fa-house text-base"></i>
-                <span class="text-[9px] font-semibold">Home</span>
+                <span class="text-[8px] font-semibold">Home</span>
             </button>
-            <button id="nav-kajian" onclick="switchTab('kajian')" class="nav-item text-slate-500 flex flex-col items-center gap-0.5">
+            <button id="nav-kajian" onclick="switchTab('kajian')" class="nav-item text-slate-400 flex flex-col items-center gap-0.5">
                 <i class="fa-solid fa-calendar-days text-base"></i>
-                <span class="text-[9px] font-semibold">Kajian</span>
+                <span class="text-[8px] font-semibold">Kajian</span>
             </button>
 
-            <!-- Floating Action Button (+ Center) -->
-            <button id="nav-infaq" onclick="switchTab('infaq')" class="nav-item bg-gradient-to-tr from-indigo-500 to-indigo-600 text-white w-12 h-12 rounded-full flex items-center justify-center -mt-6 shadow-xl border-4 border-[#0F172A] transition active:scale-95">
-                <i class="fa-solid fa-heart text-lg"></i>
+            <!-- Floating Center Button (+) -->
+            <button id="nav-infaq" onclick="switchTab('infaq')" class="nav-item bg-gradient-to-tr from-amber-400 to-amber-500 text-slate-950 w-11 h-11 rounded-full flex items-center justify-center -mt-6 shadow-xl border-4 border-[#0b1329] transition active:scale-95">
+                <i class="fa-solid fa-heart text-base"></i>
             </button>
 
-            <button id="nav-kas" onclick="switchTab('kas')" class="nav-item text-slate-500 flex flex-col items-center gap-0.5">
+            <button id="nav-kas" onclick="switchTab('kas')" class="nav-item text-slate-400 flex flex-col items-center gap-0.5">
                 <i class="fa-solid fa-wallet text-base"></i>
-                <span class="text-[9px] font-semibold">Kas</span>
+                <span class="text-[8px] font-semibold">Kas</span>
             </button>
-            <button id="nav-profil" onclick="switchTab('profil')" class="nav-item text-slate-500 flex flex-col items-center gap-0.5">
+            <button id="nav-profil" onclick="switchTab('profil')" class="nav-item text-slate-400 flex flex-col items-center gap-0.5">
                 <i class="fa-solid fa-mosque text-base"></i>
-                <span class="text-[9px] font-semibold">Profil</span>
+                <span class="text-[8px] font-semibold">Profil</span>
             </button>
         </nav>
 
@@ -463,7 +458,7 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => {
                 el.classList.remove('text-amber-400');
-                el.classList.add('text-slate-500');
+                el.classList.add('text-slate-400');
             });
 
             const targetTab = document.getElementById('tab-' + tabName);
@@ -471,7 +466,7 @@
             
             const navBtn = document.getElementById('nav-' + tabName);
             if (navBtn && tabName !== 'infaq') {
-                navBtn.classList.remove('text-slate-500');
+                navBtn.classList.remove('text-slate-400');
                 navBtn.classList.add('text-amber-400');
             }
         }
@@ -517,7 +512,7 @@
             } else {
                 audioAzan.pause();
                 icon.className = "fa-solid fa-volume-xmark";
-                text.innerText = "Aktifkan Suara";
+                text.innerText = "Suara Azan";
             }
         }
 
@@ -576,7 +571,7 @@
             jadwalShalat.forEach(s => {
                 const isActive = s.nama === nextShalat.nama;
                 gridHtml += `
-                    <div class="${isActive ? 'bg-gradient-to-br from-amber-400 to-amber-500 text-slate-950 font-bold border-amber-300 shadow-md' : 'bg-[#1E293B] text-slate-200 border-slate-800'} p-2 rounded-xl border flex flex-col items-center">
+                    <div class="${isActive ? 'bg-gradient-to-br from-amber-400 to-amber-500 text-slate-950 font-bold border-amber-300 shadow-md' : 'bg-[#131f3d] text-slate-200 border-slate-800'} p-2 rounded-2xl border flex flex-col items-center">
                         <span class="text-[10px] opacity-80">${s.nama}</span>
                         <span class="text-xs font-bold mt-0.5">${s.jam}</span>
                     </div>
@@ -640,7 +635,7 @@
                     else totalPengeluaran += nominal;
 
                     kasHtml += `
-                    <div class="bg-[#1E293B] p-3 rounded-xl border border-slate-800 flex justify-between items-center hover:border-slate-700 transition">
+                    <div class="bg-[#131f3d] p-3 rounded-2xl border border-slate-800 flex justify-between items-center hover:border-slate-700 transition">
                         <div class="flex-1 min-w-0 mr-2">
                             <p class="font-bold text-white text-xs truncate">${item.keterangan || 'Transaksi'}</p>
                             <span class="text-[10px] ${item.tipe === 'masuk' ? 'text-emerald-400 bg-emerald-950/80 border border-emerald-800/50' : 'text-rose-400 bg-rose-950/80 border border-rose-800/50'} px-2 py-0.5 rounded font-semibold inline-block mt-0.5">
@@ -651,7 +646,7 @@
                             <span class="font-bold text-xs ${item.tipe === 'masuk' ? 'text-emerald-400' : 'text-rose-400'}">
                                 ${item.tipe === 'masuk' ? '+' : '-'} Rp ${nominal.toLocaleString('id-ID')}
                             </span>
-                            <button onclick="hapusKas('${docId}')" class="text-rose-400 hover:text-rose-300 p-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900 border border-rose-800/50 transition text-[10px] font-bold" title="Hapus Transaksi">
+                            <button onclick="hapusKas('${docId}')" class="text-rose-400 hover:text-rose-300 p-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900 border border-rose-800/50 transition text-[10px] font-bold" title="Hapus Transaksi">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
@@ -692,7 +687,7 @@
                     const item = doc.data();
                     const docId = doc.id;
                     docHtml += `
-                    <div class="bg-[#1E293B] p-3 rounded-2xl border border-slate-800 flex justify-between items-center hover:border-slate-700 transition">
+                    <div class="bg-[#131f3d] p-3 rounded-2xl border border-slate-800 flex justify-between items-center hover:border-slate-700 transition">
                         <a href="${item.link}" target="_blank" class="flex items-center gap-3 flex-1 min-w-0 mr-2">
                             <div class="w-9 h-9 bg-rose-950/80 text-rose-400 border border-rose-800/50 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-file-pdf text-base"></i></div>
                             <div class="truncate">
@@ -700,7 +695,7 @@
                                 <span class="text-[10px] text-slate-400">Klik untuk melihat/unduh berkas</span>
                             </div>
                         </a>
-                        <button onclick="hapusDokumen('${docId}')" class="text-rose-400 hover:text-rose-300 p-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900 border border-rose-800/50 transition text-xs font-semibold flex-shrink-0 flex items-center gap-1" title="Hapus Dokumen">
+                        <button onclick="hapusDokumen('${docId}')" class="text-rose-400 hover:text-rose-300 p-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900 border border-rose-800/50 transition text-xs font-semibold flex-shrink-0 flex items-center gap-1" title="Hapus Dokumen">
                             <i class="fa-solid fa-trash-can"></i> Hapus
                         </button>
                     </div>
@@ -733,15 +728,15 @@
 
                     let fotoHtml = '';
                     if (item.fotoUrl && item.fotoUrl.trim() !== '') {
-                        fotoHtml = `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-lg border border-slate-700 flex-shrink-0 shadow-xs cursor-pointer" onclick="bukaModalKajian('${docId}')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200';">`;
+                        fotoHtml = `<img src="${item.fotoUrl}" alt="Kitab" class="w-16 h-20 object-cover rounded-xl border border-slate-700 flex-shrink-0 shadow-xs cursor-pointer" onclick="bukaModalKajian('${docId}')" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?w=200';">`;
                     } else {
-                        fotoHtml = `<div class="w-16 h-20 bg-slate-800 text-indigo-400 rounded-lg flex items-center justify-center flex-shrink-0 border border-slate-700 cursor-pointer" onclick="bukaModalKajian('${docId}')">
+                        fotoHtml = `<div class="w-16 h-20 bg-slate-800 text-indigo-400 rounded-xl flex items-center justify-center flex-shrink-0 border border-slate-700 cursor-pointer" onclick="bukaModalKajian('${docId}')">
                                         <i class="fa-solid fa-book-quran text-2xl"></i>
                                     </div>`;
                     }
 
                     agendaHtml += `
-                    <div class="bg-[#1E293B] p-3 rounded-2xl border border-slate-800 shadow-xs flex gap-3 items-center relative hover:border-indigo-500/50 transition">
+                    <div class="bg-[#131f3d] p-3 rounded-2xl border border-slate-800 shadow-xs flex gap-3 items-center relative hover:border-indigo-500/40 transition">
                         ${fotoHtml}
                         <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-start">
@@ -843,7 +838,7 @@
                     dataArtikel.push({ id: docId, ...item });
 
                     html += `
-                    <div class="bg-[#1E293B] p-3 rounded-2xl border border-slate-800 flex gap-3 items-center hover:border-slate-700 transition relative">
+                    <div class="bg-[#131f3d] p-3 rounded-2xl border border-slate-800 flex gap-3 items-center hover:border-slate-700 transition relative">
                         <img src="${item.gambarUrl}" alt="${item.judul}" onclick="bukaArtikel('${docId}')" class="w-20 h-20 object-cover rounded-xl border border-slate-800 flex-shrink-0 cursor-pointer">
                         <div class="flex-1 min-w-0 space-y-1">
                             <div class="flex justify-between items-start">
